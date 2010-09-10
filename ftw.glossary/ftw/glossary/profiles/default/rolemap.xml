@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <!-- Map the "add" permissions for the various content types.
+      -->
+    <permission name="ftw.glossary: Add GlossaryItem" acquire="False">
+        <role name="Manager" />
+	<role name="Contributor" />
+	<role name="Editor" />
+    </permission>
+  </permissions>
+</rolemap>

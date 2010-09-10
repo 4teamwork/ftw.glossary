@@ -1,0 +1,15 @@
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+    <index name="term" meta_type="FieldIndex">
+        <indexed_attr value="term"/>
+    </index>
+    <index name="category" meta_type="FieldIndex">
+        <indexed_attr value="category"/>
+    </index>
+    <index name="description" meta_type="FieldIndex">
+        <indexed_attr value="description"/>
+    </index>
+
+    
+    <column value="term"/>
+    <column value="category"/>
+</object>

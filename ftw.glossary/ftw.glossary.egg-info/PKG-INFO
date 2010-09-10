@@ -1,0 +1,24 @@
+Metadata-Version: 1.0
+Name: ftw.glossary
+Version: 0.1
+Summary: Content Type for defining terms in a glossary
+Home-page: http://www.4teamwork.ch
+Author: Lukas Graf
+Author-email: code@lukas-graf.ch
+License: GPL
+Description: Introduction
+        ============
+        
+        
+        
+        Changelog
+        =========
+        
+        0.1dev (unreleased)
+        -------------------
+        
+        - Initial release
+        
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Programming Language :: Python
