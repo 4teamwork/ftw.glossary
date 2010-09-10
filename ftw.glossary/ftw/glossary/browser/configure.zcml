@@ -2,27 +2,23 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ftw.glossary">
+    
     <!-- -*- extra stuff goes here -*- -->
 
-
-  <browser:page
+    <browser:page
       for="*"
       name="glossary_view"
       class=".glossaryview.GlossaryView"
-      template="glossaryview.pt"
-      allowed_attributes="search"
       allowed_interface=".glossaryview.IGlossaryView"
       permission="zope.Public"
       />
 
-
-
     <browser:resource
-        name="glossary-item.css"
-        file="resources/glossary-item.css"
-        />
+       name="glossary-item.css"
+       file="resources/glossary-item.css"
+       />
 
-   <browser:page
+    <browser:page
       for="..interfaces.IGlossaryItem"
       name="view"
       class=".glossaryitemview.GlossaryItemView"
@@ -30,6 +26,5 @@
       allowed_interface=".glossaryitemview.IGlossaryItemView"
       permission="zope.Public"
       />
-
 
 </configure>

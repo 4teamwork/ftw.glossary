@@ -8,8 +8,10 @@
 <body>
     
 <metal:css fill-slot="css_slot">
+    <!-- FIXME - This CSS resource doesn't seem to get loaded -->
     <style type="text/css" media="all"
-            tal:content="string: @import url(${context/++resource++glossary-item.css});"></style>
+            tal:content="string: @import url(${context/++resource++glossary-item.css});">
+    </style>
 </metal:css>
 
 <metal:main fill-slot="main">
@@ -30,12 +32,10 @@
 	<div>
             <span metal:use-macro="python:context.widget('description', mode='view')" />
         </div>
-        
-        
-
       
         <div>
-            <strong id="csstest">Categories:</strong> 
+            <strong>Categories:</strong> 
+	    <!-- TODO - Link categories to actual targets -->
 	    <a href="#">
 	    	<span metal:use-macro="python:context.widget('category', mode='view')" />
 	    </a>
@@ -45,7 +45,6 @@
             show related items if they exist
         </div>
 
-    
         <div tal:replace="structure provider:plone.belowcontentbody" />
 
     </tal:main-macro>

@@ -7,6 +7,10 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+
+  <!-- Include direct package dependencies -->
+  <include package="collective.js.jqueryui" />
+
   <genericsetup:registerProfile
       name="default"
       title="ftw.glossary"
@@ -16,7 +20,6 @@
       />
   <!-- -*- extra stuff goes here -*- -->
 
-  <include package=".browser" />
-  
+  <include package=".browser" /> 
   
 </configure>

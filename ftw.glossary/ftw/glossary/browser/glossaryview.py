@@ -14,19 +14,24 @@ class IGlossaryView(Interface):
     Glossary view interface
     """
 
-    def test():
-        """ test method"""
+    def search(self, pattern):
+        """Return those terms from the catalog that match pattern
+
+        """
 
 
 class GlossaryView(BrowserView):
     """
-    Glossary browser view
+    Glossary browser view - Enable display of and search for terms
+
     """
     implements(IGlossaryView)
 
     template = ViewPageTemplateFile('glossaryview.pt')
 
     def __call__(self):
+        # TODO: This is an attempt at a self-submitting form, but this method
+        #       doesn't seem to get called at all yet.
         form = self.request.form
         # Make sure we had a proper form submit, not just a GET request
         submitted = form.get('form.submitted', False)
@@ -39,13 +44,15 @@ class GlossaryView(BrowserView):
         else:
             return self.template()
 
-    def search(self, pattern):
+    def search(self, term=None):
         """
         Search for GlossaryItems matching `pattern` and return a JSONified list 
 
         """
-
-        catalog = getToolByName(self.context, 'portal_catalog')
-        terms = [brain.term for brain in catalog(portal_type='GlossaryItem')]
-        matches = [t for t in terms if t.lower().startswith(pattern.lower())]
-        return json.dumps(matches)
+        if term is None:
+            return []
+        else:
+            catalog = getToolByName(self.context, 'portal_catalog')
+            terms = [brain.Title for brain in catalog(portal_type='GlossaryItem',
+                                                      Title = "%s*" % term)]
+            return json.dumps(terms)

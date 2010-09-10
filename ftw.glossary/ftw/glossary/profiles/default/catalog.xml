@@ -5,11 +5,7 @@
     <index name="category" meta_type="FieldIndex">
         <indexed_attr value="category"/>
     </index>
-    <index name="description" meta_type="FieldIndex">
-        <indexed_attr value="description"/>
-    </index>
 
-    
     <column value="term"/>
     <column value="category"/>
 </object>

@@ -17,7 +17,7 @@
 
         <script type="text/javascript">
 	    var data = "Plone Zope HTML Core Selectors Attributes Traversing Manipulation CSS Events Effects Ajax Utilities".split(" ");
-            jq("#glossary-search-field").autocomplete({source:data});
+            jq("#glossary-search-field").autocomplete({source:"http://localhost:8080/Plone/glossary/glossary_view/search"});
         </script>
 
 	<div><p>(Empty div)</p></div>
