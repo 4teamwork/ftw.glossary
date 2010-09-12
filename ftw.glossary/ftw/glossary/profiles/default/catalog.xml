@@ -8,4 +8,5 @@
 
     <column value="term"/>
     <column value="category"/>
+    <column value="description"/>
 </object>

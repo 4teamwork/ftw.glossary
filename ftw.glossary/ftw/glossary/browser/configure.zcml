@@ -10,7 +10,7 @@
       name="glossary_view"
       class=".glossaryview.GlossaryView"
       allowed_interface=".glossaryview.IGlossaryView"
-      permission="zope.Public"
+      permission="zope2.View"
       />
 
     <browser:resource
@@ -24,7 +24,7 @@
       class=".glossaryitemview.GlossaryItemView"
       template="glossaryitemview.pt"
       allowed_interface=".glossaryitemview.IGlossaryItemView"
-      permission="zope.Public"
+      permission="zope2.View"
       />
 
 </configure>

@@ -10,17 +10,26 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-	<form method="POST" action="glossary_view">
-	<input id="glossary-search-field" type="text"/>
-	<input id="glossary-search-btn" type="submit" value="Search"/>
+	<form method="post" 
+	      tal:attributes="action string:${context/absolute_url}/${view/__name__}">
+	    <input type="hidden" name="form.submitted:boolean" value="True" />
+	    <input id="glossary-search-field" name="glossary-search-field" type="text"/>
+	    <input name="glossary-search-button" type="submit" value="Search"/>
 	</form>
 
-        <script type="text/javascript">
-	    var data = "Plone Zope HTML Core Selectors Attributes Traversing Manipulation CSS Events Effects Ajax Utilities".split(" ");
-            jq("#glossary-search-field").autocomplete({source:"http://localhost:8080/Plone/glossary/glossary_view/search"});
+        <script type="text/javascript"
+	        tal:content="string:jq('#glossary-search-field').autocomplete(
+	        {source:'${context/absolute_url}/${view/__name__}/matching_terms'});">
         </script>
 
-	<div><p>(Empty div)</p></div>
+	<div>
+	    <dl tal:define="terms view/search_results">
+	        <tal:items tal:repeat="item terms">
+	        <dt tal:content="item/term"/>
+	        <dd tal:content="structure item/description"/>
+	        </tal:items>
+	    </dl>
+	</div>
     </metal:content-core>
 </metal:content-core>
 
