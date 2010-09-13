@@ -31,22 +31,22 @@
 	    </dl>
 	</div>
 
-	<script type="text/javascript">
-	jq("input[name=glossary-search-button]").click(function(event) {
-	  event.preventDefault();
-	  jq.getJSON("http://localhost:8080/Plone/glossary/glossary_view/get_glossary_items", 
-		     data={search_term:jq("input[name=glossary-search-field]").val(),
-		           format:'json'},
+        <script type="text/javascript" tal:content="structure string:
+        jq('input[name=glossary-search-button]').click(function(event) {
+          event.preventDefault();
+          jq.getJSON('${context/absolute_url}/${view/__name__}/get_glossary_items', 
+                     data={search_term:jq('input[name=glossary-search-field]').val(),
+                           format:'json'},
                      function(response) {
-	  	         var results_html = jq("<dl/>");
-	                 for (var item in response) {
-		             results_html.append(jq("<dt/>").append(response[item].term));
-		             results_html.append(jq("<dd/>").append(response[item].description));
-		         }
-		         jq("div#search-results").html(results_html);
-	             });
-	  });
-	</script>
+                         var results_html = jq('<dl/>');
+                         for (var item in response) {
+                             results_html.append(jq('<dt/>').append(response[item].term));
+                             results_html.append(jq('<dd/>').append(response[item].description));
+                         }
+                         jq('div#search-results').html(results_html);
+                     });
+          });">
+        </script>
 
     </metal:content-core>
 </metal:content-core>
