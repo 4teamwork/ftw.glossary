@@ -13,23 +13,41 @@
 	<form method="post" 
 	      tal:attributes="action string:${context/absolute_url}/${view/__name__}">
 	    <input type="hidden" name="form.submitted:boolean" value="True" />
-	    <input id="glossary-search-field" name="glossary-search-field" type="text"/>
-	    <input name="glossary-search-button" type="submit" value="Search"/>
+	    <input name="glossary-search-field" type="text"/>
+	    <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search"/>
 	</form>
 
         <script type="text/javascript"
-	        tal:content="string:jq('#glossary-search-field').autocomplete(
-	        {source:'${context/absolute_url}/${view/__name__}/matching_terms'});">
+	        tal:content="string:jq('input[name=glossary-search-field]').autocomplete(
+	        {source:'${context/absolute_url}/${view/__name__}/matching_terms',termName: 'foobar'});">
         </script>
 
-	<div>
-	    <dl tal:define="terms view/search_results">
+	<div id="search-results">
+	    <dl tal:define="terms view/get_glossary_items">
 	        <tal:items tal:repeat="item terms">
 	        <dt tal:content="item/term"/>
 	        <dd tal:content="structure item/description"/>
 	        </tal:items>
 	    </dl>
 	</div>
+
+	<script type="text/javascript">
+	jq("input[name=glossary-search-button]").click(function(event) {
+	  event.preventDefault();
+	  jq.getJSON("http://localhost:8080/Plone/glossary/glossary_view/get_glossary_items", 
+		     data={search_term:jq("input[name=glossary-search-field]").val(),
+		           format:'json'},
+                     function(response) {
+	  	         var results_html = jq("<dl/>");
+	                 for (var item in response) {
+		             results_html.append(jq("<dt/>").append(response[item].term));
+		             results_html.append(jq("<dd/>").append(response[item].description));
+		         }
+		         jq("div#search-results").html(results_html);
+	             });
+	  });
+	</script>
+
     </metal:content-core>
 </metal:content-core>
 
