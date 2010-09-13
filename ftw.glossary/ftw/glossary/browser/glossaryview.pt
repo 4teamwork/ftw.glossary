@@ -19,7 +19,7 @@
 
         <script type="text/javascript"
 	        tal:content="string:jq('input[name=glossary-search-field]').autocomplete(
-	        {source:'${context/absolute_url}/${view/__name__}/matching_terms',termName: 'foobar'});">
+	            {source:'${context/absolute_url}/${view/__name__}/matching_terms'});">
         </script>
 
 	<div id="search-results">
@@ -36,7 +36,7 @@
           event.preventDefault();
           jq.getJSON('${context/absolute_url}/${view/__name__}/get_glossary_items', 
                      data={search_term:jq('input[name=glossary-search-field]').val(),
-                           format:'json'},
+                           mode:'json'},
                      function(response) {
                          var results_html = jq('<dl/>');
                          for (var item in response) {

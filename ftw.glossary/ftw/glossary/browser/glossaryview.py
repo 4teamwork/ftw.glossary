@@ -21,10 +21,10 @@ class IGlossaryView(Interface):
 
         """
 
-    def get_glossary_items(self, search_term=None, format='python'):
+    def get_glossary_items(self, search_term=None, mode='python'):
         """
         Search for GlossaryItems matching `self.search_term` and return
-        either a JSON list or a python list (depending on `format`) of
+        either a JSON list or a python list (depending on `mode`) of
         dicts with terms and definitions.
 
         """
@@ -58,6 +58,7 @@ class GlossaryView(BrowserView):
 
 
     def _catalog_search(self, pattern):
+        """Search catalog for GlossaryItems matching `pattern`"""
         if pattern is None or pattern == "":
             return None
         else:
@@ -67,7 +68,11 @@ class GlossaryView(BrowserView):
             return brains
 
     def matching_terms(self, term=None):
-        """Search for GlossaryItems matching `term` and return a JSON list"""
+        """
+        Search for GlossaryItems matching `term` and return a JSON list
+        of just the terms to be used by jquery.ui.autocomplete()
+
+        """
         if term is None:
             return []
         else:
@@ -78,10 +83,10 @@ class GlossaryView(BrowserView):
             terms = [brain.Title for brain in self._catalog_search(term)]
             return json.dumps(terms)
 
-    def get_glossary_items(self, search_term=None, format='python'):
+    def get_glossary_items(self, search_term=None, mode='python'):
         """
         Search for GlossaryItems matching `self.search_term` and return
-        either a JSON list or a python list (depending on `format`) of
+        either a JSON list or a python list (depending on `mode`) of
         dicts with terms and definitions.
 
         """
@@ -92,9 +97,9 @@ class GlossaryView(BrowserView):
             for brain in self._catalog_search(self.search_term):
                 glossary_items.append(dict(term=brain.Title,
                                            description=brain.description))
-            if format == 'python':
+            if mode == 'python':
                 return glossary_items
-            elif format == 'json':
+            elif mode == 'json':
                 response = self.request.response
                 response.setHeader('Content-Type','application/json')
                 response.addHeader("Cache-Control", "no-cache")
