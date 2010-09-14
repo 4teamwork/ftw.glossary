@@ -6,7 +6,7 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <browser:page
-      for="*"
+      for="Products.ATContentTypes.interface.folder.IATFolder"
       name="glossary_view"
       class=".glossaryview.GlossaryView"
       allowed_interface=".glossaryview.IGlossaryView"

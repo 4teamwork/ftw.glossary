@@ -1,4 +1,5 @@
 import json
+import zope
 from zope.interface import implements, Interface
 
 from Products.Five import BrowserView
@@ -6,14 +7,21 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
-from ftw.glossary import glossaryMessageFactory as _
+#from ftw.glossary import glossaryMessageFactory as _
 
+# TODO: 
+# - Implement categories
+# - List / search only published GlossaryItems?
+# - Search currently matches for each word invididually for multi-word terms
+#       instead of the beginning of the whole term
+# - Correctly declare search_term
 
 class IGlossaryView(Interface):
     """
     Glossary view interface
 
     """
+    search_term = zope.interface.Attribute("Search Term")
 
     def matching_terms(self, term):
         """
@@ -36,6 +44,25 @@ class GlossaryView(BrowserView):
     Glossary browser view - Enable display of and search for terms
 
     """
+    AJAX_SEARCH_JS = """
+        jq(function() {
+                jq('input[name=glossary-search-button]').click(function(event) {
+          event.preventDefault();
+          jq.getJSON('%s', 
+                     data={search_term:jq('input[name=glossary-search-field]').val(),
+                           mode:'json'},
+                     function(response) {
+                         var results_html = jq('<dl/>');
+                         for (var item in response) {
+                             results_html.append(jq('<dt/>').append(response[item].term));
+                             results_html.append(jq('<dd/>').append(response[item].description));
+                         }
+                         jq('div#search-results').html(results_html);
+                     });
+          });
+        }
+    );"""
+
     implements(IGlossaryView)
 
     template = ViewPageTemplateFile('glossaryview.pt')
@@ -44,7 +71,13 @@ class GlossaryView(BrowserView):
         """
         Self-submitting form that displays a search field and
         results from the search
+        
         """
+        self.ajax_search_js = self.AJAX_SEARCH_JS % (
+            '/'.join([self.context.absolute_url(), 
+                      self.__name__, 
+                      'get_glossary_items']))
+
         form = self.request.form
         self.search_term = ''
 
