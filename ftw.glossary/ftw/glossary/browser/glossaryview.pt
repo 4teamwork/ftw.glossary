@@ -14,7 +14,7 @@
           tal:attributes="action string:${context/absolute_url}/${view/__name__}">
         <input type="hidden" name="form.submitted:boolean" value="True" />
         <input name="glossary-search-field" type="text"/>
-        <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search"/>
+        <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search" i18n:attributes="value"/>
     </form>
 
         <script type="text/javascript"

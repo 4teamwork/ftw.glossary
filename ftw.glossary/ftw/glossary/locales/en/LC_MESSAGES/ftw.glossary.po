@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2010-09-15 09:30 +0200\n"
+"Last-Translator: Lukas Graf <lukas.graf@4teamwork.ch>\n"
+"Language-Team: English <lukas.graf@4teamwork.ch>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: ftw.glossary\n"
+
+#: ./interfaces.py:16
+msgid "Category"
+msgstr ""
+
+#: ./profiles/default/types/GlossaryItem.xml
+msgid "Definition of a term"
+msgstr ""
+
+#: ./interfaces.py:12
+msgid "Description"
+msgstr ""
+
+#: ./content/glossary_item.py:29
+msgid "Descriptive text"
+msgstr ""
+
+#: ./profiles/default/types/GlossaryItem.xml
+msgid "GlossaryItem"
+msgstr ""
+
+#: ./content/glossary_item.py:40
+msgid "One or more categories this term belongs to"
+msgstr ""
+
+#: ./interfaces.py:13
+msgid "Rich text describing this term"
+msgstr ""
+
+#: ./content/glossary_item.py:46
+#: ./interfaces.py:9
+msgid "Term"
+msgstr ""
+
+#: ./content/glossary_item.py:47
+msgid "Term to be defined"
+msgstr ""
+

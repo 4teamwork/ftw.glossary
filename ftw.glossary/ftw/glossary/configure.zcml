@@ -10,6 +10,8 @@
 
   <!-- Include direct package dependencies -->
   <include package="collective.js.jqueryui" />
+  
+  <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
       name="default"
