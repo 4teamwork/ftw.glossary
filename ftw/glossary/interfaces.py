@@ -6,12 +6,12 @@ class IGlossaryItem(Interface):
     """A glossary item
 
     """
-    term = schema.TextLine(title=_(u"Term"),
+    term = schema.TextLine(title=_(u"label_term", default="Term"),
         required=True)
 
-    description = schema.SourceText(title=_(u"Description"),
-        description=_(u"Rich text describing this term"),
+    description = schema.SourceText(title=_(u"label_description", default="Description"),
+        description=_(u"help_description", default="Rich text describing this term"),
         required=True)
 
-    category = schema.List(title=_(u"Category"),
+    category = schema.List(title=_(u"label_category", default="Category"),
         required=True)

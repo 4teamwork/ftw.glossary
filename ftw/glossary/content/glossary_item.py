@@ -2,10 +2,6 @@
 """
 
 from zope.interface import implements
-from zope.component import adapts
-
-from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.interfaces import IObjectPostValidation
 
 from Products.Archetypes import atapi
 
@@ -26,8 +22,8 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         validators=('isTidyHtmlWithCleanup',),
         default_output_type='text/x-html-safe',
-        widget=atapi.RichWidget(label=_(u"Descriptive text"),
-                                description=_(u""),
+        widget=atapi.RichWidget(label=_(u"label_description", default="Description"),
+                                description=_(u"help_description", default="Rich text describing this term"),
                                 rows=25,
                                 allow_file_upload=False),
         ),
@@ -37,14 +33,16 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary = ["Foo", "Bar"],
         enforceVocabulary=True,
-        widget=atapi.MultiSelectionWidget(label=_(u"One or more categories this term belongs to"),
-            description=_(u""))
+        widget=atapi.MultiSelectionWidget(label=_(u"label_category", 
+            default="Category"),
+            description=_(u"help_category", default="One or more categories this term belongs to")
+            )
         ),
     ))
 
 GlossaryItemSchema['title'].storage = atapi.AnnotationStorage()
-GlossaryItemSchema['title'].widget.label = _(u"Term")
-GlossaryItemSchema['title'].widget.description = _(u"Term to be defined")
+GlossaryItemSchema['title'].widget.label = _(u"label_term", default="Term")
+GlossaryItemSchema['title'].widget.description = _(u"help_term", default="Term to be defined")
 
 
 finalizeATCTSchema(GlossaryItemSchema, folderish=False, moveDiscussion=False)
