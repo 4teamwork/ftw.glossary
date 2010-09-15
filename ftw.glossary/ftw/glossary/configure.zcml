@@ -9,7 +9,8 @@
 
 
   <!-- Include direct package dependencies -->
-  <include package="collective.js.jqueryui" />
+  <includeDependencies package="." />
+ 
   
   <i18n:registerTranslations directory="locales" />
 
