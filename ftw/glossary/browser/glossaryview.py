@@ -48,7 +48,7 @@ class GlossaryView(BrowserView):
         jq(function() {
                 jq('input[name=glossary-search-button]').click(function(event) {
           event.preventDefault();
-          jq.getJSON('%s', 
+          jq.getJSON('%s',
                      data={search_term:jq('input[name=glossary-search-field]').val(),
                            mode:'json'},
                      function(response) {
@@ -61,7 +61,26 @@ class GlossaryView(BrowserView):
                      });
           });
         }
-    );"""
+    );
+
+        jq(function() {
+                jq('a.glossary-index-links').click(function(event) {
+          event.preventDefault();
+          jq.getJSON('%s',
+                     data={search_letter:jq(this).text(),
+                           mode:'json'},
+                     function(response) {
+                         var results_html = jq('<dl/>');
+                         for (var item in response) {
+                             results_html.append(jq('<dt/>').append(response[item].term));
+                             results_html.append(jq('<dd/>').append(response[item].description));
+                         }
+                         jq('div#search-results').html(results_html);
+                     });
+          });
+        }
+    );
+"""
 
     implements(IGlossaryView)
 
@@ -73,10 +92,11 @@ class GlossaryView(BrowserView):
         results from the search
         
         """
-        self.ajax_search_js = self.AJAX_SEARCH_JS % (
-            '/'.join([self.context.absolute_url(), 
-                      self.__name__, 
-                      'get_glossary_items']))
+        ajax_url = '/'.join([self.context.absolute_url(), 
+                  self.__name__, 
+                  'get_glossary_items'])
+
+        self.ajax_search_js = self.AJAX_SEARCH_JS % (ajax_url, ajax_url)
 
         form = self.request.form
         self.search_term = ''
@@ -90,7 +110,7 @@ class GlossaryView(BrowserView):
         return self.template()
 
 
-    def _catalog_search(self, pattern):
+    def _catalog_search(self, pattern, alphabetical=False):
         """Search catalog for GlossaryItems matching `pattern`"""
 
         def quotestring(s):
@@ -108,7 +128,15 @@ class GlossaryView(BrowserView):
         else:
             pattern = quote_bad_chars(pattern)
             catalog = getToolByName(self.context, 'portal_catalog')
-            brains = catalog(portal_type='GlossaryItem', Title = "%s*" % pattern)
+            if not alphabetical:
+                brains = catalog(portal_type='GlossaryItem', Title = "%s*" % pattern, sort_on='sortable_title')
+            else:
+                if not pattern == '0-9':
+                    brains = catalog(portal_type='GlossaryItem', first_letter = pattern, sort_on='sortable_title')
+                else:
+                    brains = []
+                    for digit in range(10):
+                        brains += catalog(portal_type='GlossaryItem', first_letter = str(digit), sort_on='sortable_title')
             return brains
 
     def matching_terms(self, term=None):
@@ -127,27 +155,36 @@ class GlossaryView(BrowserView):
             terms = [brain.Title for brain in self._catalog_search(term)]
             return json.dumps(terms)
 
-    def get_glossary_items(self, search_term=None, mode='python'):
+    def get_glossary_items(self, search_term=None, search_letter=None, mode='python'):
         """
-        Search for GlossaryItems matching `self.search_term` and return
-        either a JSON list or a python list (depending on `mode`) of
-        dicts with terms and definitions.
+        Search for GlossaryItems matching `search_term` or `search_letter` 
+        and return either a JSON list or a python list (depending on `mode`) 
+        of dicts with terms and definitions.
 
         """
+        glossary_items = []
+
         if search_term is not None:
             self.search_term = search_term
-        glossary_items = []
-        if self.search_term != '':
+
+        # We're returning the alphabetical listing
+        if search_letter is not None:
+            for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
+                glossary_items.append(dict(term=brain.Title,
+                                           description=brain.description))
+        # We're searching for text
+        elif self.search_term not in ('', None):
             for brain in self._catalog_search(self.search_term):
                 glossary_items.append(dict(term=brain.Title,
                                            description=brain.description))
-            if mode == 'python':
-                return glossary_items
-            elif mode == 'json':
-                response = self.request.response
-                response.setHeader('Content-Type','application/json')
-                response.addHeader("Cache-Control", "no-cache")
-                response.addHeader("Pragma", "no-cache")
-                return json.dumps(glossary_items)
-            else:
-                return []
+
+        if mode == 'python':
+            return glossary_items
+        elif mode == 'json':
+            response = self.request.response
+            response.setHeader('Content-Type','application/json')
+            response.addHeader("Cache-Control", "no-cache")
+            response.addHeader("Pragma", "no-cache")
+            return json.dumps(glossary_items)
+        else:
+            return []

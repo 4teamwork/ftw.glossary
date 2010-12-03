@@ -18,8 +18,7 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.TextField('description',
         required=False,
-        searchable=True,
-        storage=atapi.AnnotationStorage(),
+        accessor='Description',
         validators=('isTidyHtmlWithCleanup',),
         default_output_type='text/x-html-safe',
         widget=atapi.RichWidget(label=_(u"label_description", default="Description"),
@@ -30,7 +29,6 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.LinesField('category',
         multiValued=True,
-        storage=atapi.AnnotationStorage(),
         vocabulary = ["Foo", "Bar"],
         enforceVocabulary=True,
         widget=atapi.MultiSelectionWidget(label=_(u"label_category", 
@@ -40,9 +38,10 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ))
 
-GlossaryItemSchema['title'].storage = atapi.AnnotationStorage()
 GlossaryItemSchema['title'].widget.label = _(u"label_term", default="Term")
 GlossaryItemSchema['title'].widget.description = _(u"help_term", default="Term to be defined")
+
+GlossaryItemSchema['excludeFromNav'].default = True
 
 
 finalizeATCTSchema(GlossaryItemSchema, folderish=False, moveDiscussion=False)
@@ -56,9 +55,15 @@ class GlossaryItem(base.ATCTContent):
     _at_rename_after_creation = True
     schema = GlossaryItemSchema
 
-    term = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
-    category = atapi.ATFieldProperty('category')
+    def first_letter(self):
+        letter = ''
+        title = self.Schema().getField('title').get(self)
+        for i in range(len(title)):
+            letter = title[i].lower()
+            if letter.isalnum():
+                break
+        return letter
+
 
 atapi.registerType(GlossaryItem, PROJECTNAME)
 

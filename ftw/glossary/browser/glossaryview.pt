@@ -10,6 +10,13 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
+    <h1>Glossary</h1>
+    <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?index=0">0-9</a>
+    <tal:alphabetical-index tal:repeat="letter python:map(chr, range(65, 91))">
+        <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?index=${letter}" tal:content="letter">A</a>
+    </tal:alphabetical-index>
+    <br/><br/>
+
     <form method="post" 
           tal:attributes="action string:${context/absolute_url}/${view/__name__}">
         <input type="hidden" name="form.submitted:boolean" value="True" />
