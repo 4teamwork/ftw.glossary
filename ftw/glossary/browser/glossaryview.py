@@ -92,12 +92,23 @@ class GlossaryView(BrowserView):
 
     def _catalog_search(self, pattern):
         """Search catalog for GlossaryItems matching `pattern`"""
+
+        def quotestring(s):
+            return '"%s"' % s
+
+        # We need to quote parentheses when searching text indices
+        def quote_bad_chars(s):
+            bad_chars = ["(", ")"]
+            for char in bad_chars:
+                s = s.replace(char, quotestring(char))
+            return s
+
         if pattern is None or pattern == "":
             return None
         else:
+            pattern = quote_bad_chars(pattern)
             catalog = getToolByName(self.context, 'portal_catalog')
-            brains = catalog(portal_type='GlossaryItem',
-                             Title = "%s*" % pattern)
+            brains = catalog(portal_type='GlossaryItem', Title = "%s*" % pattern)
             return brains
 
     def matching_terms(self, term=None):
