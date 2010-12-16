@@ -5,24 +5,27 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="ftw.glossary">
 
-  <five:registerPackage package="." initialize=".initialize" />
+    <five:registerPackage package="." initialize=".initialize" />
 
+    <!-- Include direct package dependencies -->
+    <includeDependencies package="." />
 
-  <!-- Include direct package dependencies -->
-  <includeDependencies package="." />
- 
-  
-  <i18n:registerTranslations directory="locales" />
+    <i18n:registerTranslations directory="locales" />
 
-  <genericsetup:registerProfile
-      name="default"
-      title="ftw.glossary"
-      directory="profiles/default"
-      description="Installs the ftw.glossary package"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
+    <genericsetup:registerProfile
+        name="default"
+        title="ftw.glossary"
+        directory="profiles/default"
+        description="Installs the ftw.glossary package"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
 
-  <include package=".browser" /> 
+    <genericsetup:importStep
+        name="ftw.glossary"
+        title="ftw.glossary special import handlers"
+        description=""
+        handler="ftw.glossary.setuphandlers.import_various" />
+
+    <include package=".browser" /> 
   
 </configure>
