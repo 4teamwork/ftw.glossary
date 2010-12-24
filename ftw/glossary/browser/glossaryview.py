@@ -54,8 +54,8 @@ class GlossaryView(BrowserView):
                      function(response) {
                          var results_html = jq('<dl/>');
                          for (var item in response) {
-                             results_html.append(jq('<dt/>').append(response[item].term));
-                             results_html.append(jq('<dd/>').append(response[item].description));
+                             results_html.append(jq('<dt/>').html(response[item].term));
+                             results_html.append(jq('<dd/>').html(response[item].description));
                          }
                          jq('div#search-results').html(results_html);
                      });
@@ -72,8 +72,8 @@ class GlossaryView(BrowserView):
                      function(response) {
                          var results_html = jq('<dl/>');
                          for (var item in response) {
-                             results_html.append(jq('<dt/>').append(response[item].term));
-                             results_html.append(jq('<dd/>').append(response[item].description));
+                             results_html.append(jq('<dt/>').html(response[item].term));
+                             results_html.append(jq('<dd/>').html(response[item].description));
                          }
                          jq('div#search-results').html(results_html);
                      });
@@ -171,12 +171,12 @@ class GlossaryView(BrowserView):
         if search_letter is not None:
             for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
                 glossary_items.append(dict(term=brain.Title,
-                                           description=brain.description))
+                                           description=brain.Description))
         # We're searching for text
         elif self.search_term not in ('', None):
             for brain in self._catalog_search(self.search_term):
                 glossary_items.append(dict(term=brain.Title,
-                                           description=brain.description))
+                                           description=brain.Description))
 
         if mode == 'python':
             return glossary_items

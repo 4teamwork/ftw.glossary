@@ -32,12 +32,12 @@
     <div id="search-results">
         <dl tal:define="terms view/get_glossary_items">
             <tal:items tal:repeat="item terms">
-            <dt tal:content="item/term"/>
-            <dd tal:content="structure item/description"/>
+            <dt tal:content="item/getTerm"/>
+            <dd tal:content="structure item/getDescription"/>
             </tal:items>
         </dl>
     </div>
-    
+
     <script type="text/javascript" tal:content="structure view/ajax_search_js"/>
     
     </metal:content-core>

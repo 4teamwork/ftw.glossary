@@ -20,7 +20,6 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
         required=False,
         accessor='Description',
         validators=('isTidyHtmlWithCleanup',),
-        default_output_type='text/x-html-safe',
         widget=atapi.RichWidget(label=_(u"label_description", default="Description"),
                                 description=_(u"help_description", default="Rich text describing this term"),
                                 rows=25,
