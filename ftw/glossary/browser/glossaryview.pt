@@ -32,7 +32,7 @@
     <div id="search-results">
         <dl tal:define="terms view/get_glossary_items">
             <tal:items tal:repeat="item terms">
-            <dt tal:content="item/getTerm"/>
+            <dt><a href="" tal:content="item/getTerm" tal:attributes="href string:edit"/></dt>
             <dd tal:content="structure item/getDescription"/>
             </tal:items>
         </dl>

@@ -46,40 +46,44 @@ class GlossaryView(BrowserView):
     """
     AJAX_SEARCH_JS = """
         jq(function() {
-                jq('input[name=glossary-search-button]').click(function(event) {
-          event.preventDefault();
-          jq.getJSON('%s',
-                     data={search_term:jq('input[name=glossary-search-field]').val(),
-                           mode:'json'},
-                     function(response) {
-                         var results_html = jq('<dl/>');
-                         for (var item in response) {
-                             results_html.append(jq('<dt/>').html(response[item].term));
-                             results_html.append(jq('<dd/>').html(response[item].description));
-                         }
-                         jq('div#search-results').html(results_html);
-                     });
-          });
-        }
-    );
+            var edit_permission = %s;
 
-        jq(function() {
-                jq('a.glossary-index-links').click(function(event) {
-          event.preventDefault();
-          jq.getJSON('%s',
-                     data={search_letter:jq(this).text(),
-                           mode:'json'},
-                     function(response) {
-                         var results_html = jq('<dl/>');
-                         for (var item in response) {
-                             results_html.append(jq('<dt/>').html(response[item].term));
-                             results_html.append(jq('<dd/>').html(response[item].description));
-                         }
-                         jq('div#search-results').html(results_html);
-                     });
-          });
-        }
-    );
+            var display_results = function(response) {
+                var results_html = jq('<dl/>');
+                for (var item in response) {
+                    if (edit_permission) {
+                        var link = jq('<a/>').text(response[item].term);
+                        link.attr('href', response[item].url);
+                        var term = jq('<dt/>').append(link);
+                    }
+                    else {
+                        var term = jq('<dt/>').html(response[item].term);
+                    }
+                    results_html.append(term);
+                    results_html.append(jq('<dd/>').html(response[item].description));
+                }
+                jq('div#search-results').html(results_html);
+            }
+
+            // Load search results with AJAX
+            jq('input[name=glossary-search-button]').click(function(event) {
+                event.preventDefault();
+                jq.getJSON('%s',
+                    data={search_term:jq('input[name=glossary-search-field]').val(),
+                    mode:'json'},
+                display_results);
+            });
+
+            // Load index query results with AJAX
+            jq('a.glossary-index-links').click(function(event) {
+                event.preventDefault();
+                jq.getJSON('%s',
+                    data={search_letter:jq(this).text(),
+                    mode:'json'},
+                display_results);
+            });
+          
+        });
 """
 
     implements(IGlossaryView)
@@ -95,8 +99,12 @@ class GlossaryView(BrowserView):
         ajax_url = '/'.join([self.context.absolute_url(), 
                   self.__name__, 
                   'get_glossary_items'])
-
-        self.ajax_search_js = self.AJAX_SEARCH_JS % (ajax_url, ajax_url)
+        
+        from AccessControl import getSecurityManager
+        from Products.CMFCore import permissions
+        edit_permission = getSecurityManager().checkPermission(permissions.ModifyPortalContent,self.context)
+        
+        self.ajax_search_js = self.AJAX_SEARCH_JS % (edit_permission and 'true' or 'false', ajax_url, ajax_url)
 
         form = self.request.form
         self.search_term = ''
@@ -171,12 +179,14 @@ class GlossaryView(BrowserView):
         if search_letter is not None:
             for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
                 glossary_items.append(dict(term=brain.Title,
-                                           description=brain.Description))
+                                           description=brain.Description,
+                                           url=brain.getURL()))
         # We're searching for text
         elif self.search_term not in ('', None):
             for brain in self._catalog_search(self.search_term):
                 glossary_items.append(dict(term=brain.Title,
-                                           description=brain.Description))
+                                           description=brain.Description,
+                                           url=brain.getURL()))
 
         if mode == 'python':
             return glossary_items
