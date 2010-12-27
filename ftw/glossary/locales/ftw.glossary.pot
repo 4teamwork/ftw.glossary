@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-12-27 16:03+0000\n"
+"POT-Creation-Date: 2010-12-27 16:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,13 +25,13 @@ msgstr ""
 msgid "GlossaryItem"
 msgstr ""
 
-#: ./ftw/glossary/browser/glossaryview.pt:37
+#: ./ftw/glossary/browser/glossaryview.pt:34
 msgid "Search"
 msgstr ""
 
 #. Default: "One or more categories this term belongs to"
 #: ./ftw/glossary/content/glossary_item.py:35
-msgid "help_category"
+msgid "help_categories"
 msgstr ""
 
 #. Default: "Rich text describing this term"
@@ -45,10 +45,10 @@ msgstr ""
 msgid "help_term"
 msgstr ""
 
-#. Default: "Category"
+#. Default: "Categories"
 #: ./ftw/glossary/content/glossary_item.py:33
 #: ./ftw/glossary/interfaces.py:16
-msgid "label_category"
+msgid "label_categories"
 msgstr ""
 
 #. Default: "Description"

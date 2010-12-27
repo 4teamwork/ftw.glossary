@@ -7,7 +7,7 @@ PROFILE_ID = 'profile-ftw.glossary:default'
 # Specify the indexes you want, with ('index_name', 'index_type')
 INDEXES = (
     ('first_letter', 'FieldIndex'),
-    ('category', 'FieldIndex'),
+    ('categories', 'FieldIndex'),
 )
 
 def add_catalog_indexes(context, logger=None):

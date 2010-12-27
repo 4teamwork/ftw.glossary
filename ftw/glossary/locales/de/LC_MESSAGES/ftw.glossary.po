@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2010-12-27 16:03+0000\n"
+"POT-Creation-Date: 2010-12-27 16:28+0000\n"
 "PO-Revision-Date: 2010-09-15 11:39+0000\n"
 "Last-Translator: Lukas Graf <lukas.graf@4teamwork.ch>\n"
 "Language-Team: German <lukas.graf@4teamwork.ch>\n"
@@ -20,14 +20,14 @@ msgstr "Definition eines Begriffs"
 msgid "GlossaryItem"
 msgstr ""
 
-#: ./ftw/glossary/browser/glossaryview.pt:37
+#: ./ftw/glossary/browser/glossaryview.pt:34
 msgid "Search"
 msgstr "Suchen"
 
 #. Default: "One or more categories this term belongs to"
 #: ./ftw/glossary/content/glossary_item.py:35
-msgid "help_category"
-msgstr "Eine oder mehrere Kategorien für diesen Begriff"
+msgid "help_categories"
+msgstr "Eine odere mehrere Kategorien für diesen Glossarbegriff"
 
 #. Default: "Rich text describing this term"
 #: ./ftw/glossary/content/glossary_item.py:24
@@ -40,11 +40,11 @@ msgstr "Formatierter Text der diesen Begriff beschreibt"
 msgid "help_term"
 msgstr "Zu definierender Begriff"
 
-#. Default: "Category"
+#. Default: "Categories"
 #: ./ftw/glossary/content/glossary_item.py:33
 #: ./ftw/glossary/interfaces.py:16
-msgid "label_category"
-msgstr "Kategorie"
+msgid "label_categories"
+msgstr "Kategorien"
 
 #. Default: "Description"
 #: ./ftw/glossary/content/glossary_item.py:23

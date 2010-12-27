@@ -16,7 +16,7 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
-    	<h1 i18n:translate="title_glossary">Glossary</h1>
+        <h1 i18n:translate="title_glossary">Glossary</h1>
 
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
@@ -29,18 +29,18 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <!-- <h2>Description</h2>  -->
-	<div>
+    <div>
             <span metal:use-macro="python:context.widget('description', mode='view')" />
         </div>
-      
+
         <div>
             <strong>Categories:</strong> 
-	    <!-- TODO - Link categories to actual targets -->
-	    <a href="#">
-	    	<span metal:use-macro="python:context.widget('category', mode='view')" />
-	    </a>
+        <!-- TODO - Link categories to actual targets -->
+        <a href="#">
+            <span metal:use-macro="python:context.widget('categories', mode='view')" />
+        </a>
         </div>
-  
+
         <div metal:use-macro="context/document_relateditems/macros/relatedItems">
             show related items if they exist
         </div>

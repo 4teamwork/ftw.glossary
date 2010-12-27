@@ -165,7 +165,7 @@ class GlossaryView(BrowserView):
             for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
                 include = False
                 for category in categories:
-                    if category in brain.category:
+                    if category in brain.categories:
                         include = True
                 if include:
                     glossary_items.append(dict(term=brain.Title,
@@ -176,7 +176,7 @@ class GlossaryView(BrowserView):
             for brain in self._catalog_search(search_term):
                 include = False
                 for category in categories:
-                    if category in brain.category:
+                    if category in brain.categories:
                         include = True
                 if include:
                     glossary_items.append(dict(term=brain.Title,

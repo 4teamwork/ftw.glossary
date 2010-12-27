@@ -26,13 +26,13 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
                                 allow_file_upload=False),
         ),
 
-    atapi.LinesField('category',
+    atapi.LinesField('categories',
         multiValued=True,
         vocabulary_factory = 'ftw.glossary.categories',
         enforceVocabulary=True,
-        widget=atapi.MultiSelectionWidget(label=_(u"label_category",
-            default="Category"),
-            description=_(u"help_category", default="One or more categories this term belongs to")
+        widget=atapi.MultiSelectionWidget(label=_(u"label_categories",
+            default="Categories"),
+            description=_(u"help_categories", default="One or more categories this term belongs to")
             )
         ),
     ))

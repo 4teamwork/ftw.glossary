@@ -13,5 +13,5 @@ class IGlossaryItem(Interface):
         description=_(u"help_description", default="Rich text describing this term"),
         required=True)
 
-    category = schema.List(title=_(u"label_category", default="Category"),
+    categories = schema.List(title=_(u"label_categories", default="Categories"),
         required=True)
