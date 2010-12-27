@@ -16,7 +16,7 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
-    	<h1>Glossary</h1>
+    	<h1 i18n:translate="title_glossary">Glossary</h1>
 
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
