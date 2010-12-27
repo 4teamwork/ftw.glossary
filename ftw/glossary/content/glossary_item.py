@@ -28,9 +28,9 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.LinesField('category',
         multiValued=True,
-        vocabulary = ["Foo", "Bar"],
+        vocabulary_factory = 'ftw.glossary.categories',
         enforceVocabulary=True,
-        widget=atapi.MultiSelectionWidget(label=_(u"label_category", 
+        widget=atapi.MultiSelectionWidget(label=_(u"label_category",
             default="Category"),
             description=_(u"help_category", default="One or more categories this term belongs to")
             )

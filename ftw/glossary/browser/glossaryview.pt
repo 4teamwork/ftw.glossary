@@ -11,18 +11,29 @@
     <metal:content-core define-macro="content-core">
 
     <h1 i18n:translate="title_glossary">Glossary</h1>
-    <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?index=0">0-9</a>
-    <tal:alphabetical-index tal:repeat="letter python:map(chr, range(65, 91))">
-        <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?index=${letter}" tal:content="letter">A</a>
-    </tal:alphabetical-index>
-    <br/><br/>
 
-    <form method="post" 
+    <form method="post" id="glossaryform"
           tal:attributes="action string:${context/absolute_url}/${view/__name__}">
+
+        <div style="float: right">
+        <h3 i18n:translate="title_categories">Categories</h3>
+        <tal:categories tal:repeat="category view/getCategories">
+        <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category">
+        &nbsp;<label tal:content="category" /><br/>
+        </tal:categories>
+        </div>
+
+        <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?search_letter=0">0-9</a>
+        <tal:alphabetical-index tal:repeat="letter python:map(chr, range(65, 91))">
+            <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?search_letter=${letter}" tal:content="letter">A</a>
+        </tal:alphabetical-index>
+        <br/><br/>
+
         <input type="hidden" name="form.submitted:boolean" value="True" />
         <input name="glossary-search-field" type="text"/>
         <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search" i18n:attributes="value"/>
     </form>
+    <br/>
 
         <script type="text/javascript"
             tal:content="string:jq('input[name=glossary-search-field]').autocomplete(
@@ -32,8 +43,8 @@
     <div id="search-results">
         <dl tal:define="terms view/get_glossary_items">
             <tal:items tal:repeat="item terms">
-            <dt><a href="" tal:content="item/getTerm" tal:attributes="href string:edit"/></dt>
-            <dd tal:content="structure item/getDescription"/>
+            <dt><a href="" tal:content="item/term" tal:attributes="href item/url"/></dt>
+            <dd tal:content="structure item/description"/>
             </tal:items>
         </dl>
     </div>

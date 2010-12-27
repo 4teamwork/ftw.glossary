@@ -1,32 +1,23 @@
 import json
 import zope
-from zope.interface import implements, Interface
-
+from AccessControl import getSecurityManager
+from ftw.glossary.vocabularies import GlossaryCategories
+from Products.CMFCore import permissions
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.interface import implements, Interface
 
-from Products.CMFCore.utils import getToolByName
-
-#from ftw.glossary import glossaryMessageFactory as _
-
-# TODO: 
-# - Implement categories
-# - List / search only published GlossaryItems?
-# - Search currently matches for each word invididually for multi-word terms
-#       instead of the beginning of the whole term
-# - Correctly declare search_term
 
 class IGlossaryView(Interface):
     """
     Glossary view interface
-
     """
     search_term = zope.interface.Attribute("Search Term")
 
     def matching_terms(self, term):
         """
         Return a list of those terms from the catalog that match `term`.
-
         """
 
     def get_glossary_items(self, search_term=None, mode='python'):
@@ -34,7 +25,6 @@ class IGlossaryView(Interface):
         Search for GlossaryItems matching `self.search_term` and return
         either a JSON list or a python list (depending on `mode`) of
         dicts with terms and definitions.
-
         """
 
 
@@ -42,7 +32,6 @@ class IGlossaryView(Interface):
 class GlossaryView(BrowserView):
     """
     Glossary browser view - Enable display of and search for terms
-
     """
     AJAX_SEARCH_JS = """
         jq(function() {
@@ -68,18 +57,23 @@ class GlossaryView(BrowserView):
             // Load search results with AJAX
             jq('input[name=glossary-search-button]').click(function(event) {
                 event.preventDefault();
+                var formdata = jq('#glossaryform').serializeArray();
+                formdata.push(new Object({name: 'mode', value: 'json'}));
+
                 jq.getJSON('%s',
-                    data={search_term:jq('input[name=glossary-search-field]').val(),
-                    mode:'json'},
+                    data=formdata,
                 display_results);
             });
 
             // Load index query results with AJAX
             jq('a.glossary-index-links').click(function(event) {
                 event.preventDefault();
+                var formdata = jq('#glossaryform').serializeArray();
+                formdata.push(new Object({name: 'mode', value: 'json'}));
+                formdata.push(new Object({name: 'search_letter', value: jq(this).text()}));
+
                 jq.getJSON('%s',
-                    data={search_letter:jq(this).text(),
-                    mode:'json'},
+                    data=formdata,
                 display_results);
             });
           
@@ -94,27 +88,15 @@ class GlossaryView(BrowserView):
         """
         Self-submitting form that displays a search field and
         results from the search
-        
         """
         ajax_url = '/'.join([self.context.absolute_url(), 
                   self.__name__, 
                   'get_glossary_items'])
-        
-        from AccessControl import getSecurityManager
-        from Products.CMFCore import permissions
+
         edit_permission = getSecurityManager().checkPermission(permissions.ModifyPortalContent,self.context)
-        
+
         self.ajax_search_js = self.AJAX_SEARCH_JS % (edit_permission and 'true' or 'false', ajax_url, ajax_url)
 
-        form = self.request.form
-        self.search_term = ''
-
-        # Make sure we had a proper form submit, not just a GET request
-        submitted = form.get('form.submitted', False)
-        search_button = form.get('glossary-search-button', None) is not None
-        if submitted and search_button:
-            # Set search_term, to be used by get_glossary_items()
-            self.search_term = form.get('glossary-search-field', '')
         return self.template()
 
 
@@ -170,24 +152,36 @@ class GlossaryView(BrowserView):
         of dicts with terms and definitions.
 
         """
+
         glossary_items = []
 
-        if search_term is not None:
-            self.search_term = search_term
+        categories = self.request.get('categories', [])
+        search_term = self.request.get('glossary-search-field')
+        search_letter = self.request.get('search_letter')
+        mode = self.request.get('mode', 'python')
 
         # We're returning the alphabetical listing
         if search_letter is not None:
             for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
-                glossary_items.append(dict(term=brain.Title,
+                include = False
+                for category in categories:
+                    if category in brain.category:
+                        include = True
+                if include:
+                    glossary_items.append(dict(term=brain.Title,
                                            description=brain.Description,
                                            url=brain.getURL()))
         # We're searching for text
-        elif self.search_term not in ('', None):
-            for brain in self._catalog_search(self.search_term):
-                glossary_items.append(dict(term=brain.Title,
+        elif search_term not in ('', None):
+            for brain in self._catalog_search(search_term):
+                include = False
+                for category in categories:
+                    if category in brain.category:
+                        include = True
+                if include:
+                    glossary_items.append(dict(term=brain.Title,
                                            description=brain.Description,
                                            url=brain.getURL()))
-
         if mode == 'python':
             return glossary_items
         elif mode == 'json':
@@ -198,3 +192,8 @@ class GlossaryView(BrowserView):
             return json.dumps(glossary_items)
         else:
             return []
+
+    def getCategories(self):
+        vocabulary = GlossaryCategories(self.context)
+        categories = [term.value for term in vocabulary]
+        return categories
