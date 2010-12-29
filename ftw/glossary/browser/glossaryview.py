@@ -89,11 +89,12 @@ class GlossaryView(BrowserView):
         Self-submitting form that displays a search field and
         results from the search
         """
-        ajax_url = '/'.join([self.context.absolute_url(), 
-                  self.__name__, 
-                  'get_glossary_items'])
+        ajax_url = '/'.join([self.context.absolute_url(),
+                             self.__name__,
+                             'get_glossary_items'])
 
-        edit_permission = getSecurityManager().checkPermission(permissions.ModifyPortalContent,self.context)
+        sm = getSecurityManager()
+        edit_permission = sm.checkPermission(permissions.ModifyPortalContent,self.context)
 
         self.ajax_search_js = self.AJAX_SEARCH_JS % (edit_permission and 'true' or 'false', ajax_url, ajax_url)
 
@@ -113,7 +114,7 @@ class GlossaryView(BrowserView):
                 s = s.replace(char, quotestring(char))
             return s
 
-        if pattern is None or pattern == "":
+        if pattern in (None, ''):
             return None
         else:
             pattern = quote_bad_chars(pattern)
@@ -133,7 +134,6 @@ class GlossaryView(BrowserView):
         """
         Search for GlossaryItems matching `term` and return a JSON list
         of just the terms to be used by jquery.ui.autocomplete()
-
         """
         if term is None:
             return []
@@ -147,13 +147,12 @@ class GlossaryView(BrowserView):
 
     def get_glossary_items(self, search_term=None, search_letter=None, mode='python'):
         """
-        Search for GlossaryItems matching `search_term` or `search_letter` 
-        and return either a JSON list or a python list (depending on `mode`) 
-        of dicts with terms and definitions.
-
+        Search for GlossaryItems matching `search_term` or `search_letter`,
+        filter the results by category and return either a JSON list or a
+        python list (depending on `mode`) of dicts with terms and definitions.
         """
-
         glossary_items = []
+        brains = []
 
         categories = self.request.get('categories', [])
         search_term = self.request.get('glossary-search-field')
@@ -161,25 +160,18 @@ class GlossaryView(BrowserView):
         mode = self.request.get('mode', 'python')
 
         # We're returning the alphabetical listing
-        if search_letter is not None:
-            for brain in self._catalog_search(search_letter.lower(), alphabetical=True):
-                include = False
-                for category in categories:
-                    if category in brain.categories:
-                        include = True
-                if include:
-                    glossary_items.append(dict(term=brain.Title,
-                                           description=brain.Description,
-                                           url=brain.getURL()))
+        if search_letter not in ('', None):
+            brains = self._catalog_search(search_letter.lower(), alphabetical=True)
+
         # We're searching for text
         elif search_term not in ('', None):
-            for brain in self._catalog_search(search_term):
-                include = False
-                for category in categories:
-                    if category in brain.categories:
-                        include = True
-                if include:
-                    glossary_items.append(dict(term=brain.Title,
+            brains = self._catalog_search(search_term)
+
+        # Filter results by category, including only those that match
+        for brain in brains:
+            include = any([True for c in categories if c in brain.categories])
+            if include:
+                glossary_items.append(dict(term=brain.Title,
                                            description=brain.Description,
                                            url=brain.getURL()))
         if mode == 'python':
