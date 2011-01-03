@@ -19,7 +19,9 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.TextField('definition',
         required=False,
         validators=('isTidyHtmlWithCleanup',),
-        default_output_type = 'text/x-html-safe',
+        default_content_type='text/html',
+        allowable_content_types=('text/html',),
+        default_output_type='text/html',
         widget=atapi.RichWidget(
             label=_(u"label_definition", default="Definition"),
             description=_(u"help_definition", default="Rich text describing this term"),
