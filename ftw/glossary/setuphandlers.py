@@ -6,12 +6,27 @@ PROFILE_ID = 'profile-ftw.glossary:default'
 
 # Specify the indexes you want, with ('index_name', 'index_type')
 INDEXES = (
-    ('first_letter', 'FieldIndex'),
-    ('categories', 'FieldIndex'),
+    ('Title', 'ZCTextIndex'),
+    ('getCategories', 'KeywordIndex'),
+    ('getFirstLetter', 'FieldIndex'),
+    ('getSortableTitle', 'FieldIndex'),
 )
 
+# Metadata columns
+METADATA = (
+    'Title',
+    'getCategories',
+    'getDefinition',
+)
+
+
+class Args(object):
+    def __init__(self, **kw):
+        self.__dict__.update(kw)
+
+
 def add_catalog_indexes(context, logger=None):
-    """Method to add our wanted indexes to the portal_catalog.
+    """Method to add our wanted indexes to the glossary_catalog.
 
     @parameters:
 
@@ -24,26 +39,58 @@ def add_catalog_indexes(context, logger=None):
         # Called as upgrade step: define our own logger.
         logger = logging.getLogger('ftw.glossary')
 
-    # Run the catalog.xml step as that may have defined new metadata
-    # columns.  We could instead add <depends name="catalog"/> to
+    # Run the toolset.xml step to make sure we already have our
+    # glossary_catalog.
+    # We could instead add <depends name="toolset"/> to
     # the registration of our import step in zcml, but doing it in
-    # code makes this method usable as upgrade step as well.  Note that
-    # this silently does nothing when there is no catalog.xml, so it                                                                                  
-    # is quite safe.
+    # code makes this method usable as upgrade step as well.
     setup = getToolByName(context, 'portal_setup')
-    setup.runImportStepFromProfile(PROFILE_ID, 'catalog')
+    setup.runImportStepFromProfile(PROFILE_ID, 'toolset')
 
-    catalog = getToolByName(context, 'portal_catalog')
+    catalog = getToolByName(context, 'glossary_catalog')
+
+
+    # Add Lexicon
+    if 'glossary_lexicon' not in catalog.objectIds():
+        catalog.manage_addProduct['ZCTextIndex'].manage_addLexicon(
+            'glossary_lexicon',
+            elements=[
+                Args(group="Word Splitter", name= "HTML aware splitter"),
+                Args(group="Case Normalizer", name="Case Normalizer"),
+                Args(group="Stop Words", name=" Don't remove stop words")
+            ]
+        )
+
+    # Add indexes
     indexes = catalog.indexes()
     indexables = []
     for name, meta_type in INDEXES:
         if name not in indexes:
-            catalog.addIndex(name, meta_type)
+            if meta_type == 'ZCTextIndex':
+                extra = Args(doc_attr=name,
+                             lexicon_id='glossary_lexicon',
+                             index_type='Okapi BM25 Rank')
+                catalog.addIndex(name, meta_type, extra=extra)
+            else:
+                catalog.addIndex(name, meta_type)
             indexables.append(name)
             logger.info("Added %s for field %s.", meta_type, name)
     if len(indexables) > 0:
         logger.info("Indexing new indexes %s.", ', '.join(indexables))
         catalog.manage_reindexIndex(ids=indexables)
+
+    # Add metadata columns
+    reindex = False
+    for metadata in METADATA:
+        if not metadata in catalog.schema():
+            catalog.addColumn(metadata)
+            reindex = True
+    if reindex:
+        catalog.manage_reindexIndex()
+
+    # Use glossary_catalog for glossary items.
+    at_tool = getToolByName(context, 'archetype_tool')
+    at_tool.setCatalogsByType('GlossaryItem', ['glossary_catalog'])
 
 
 def import_various(context):

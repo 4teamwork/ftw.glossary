@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<tool-setup>
+  <required tool_id="glossary_catalog"
+    class="Products.ZCatalog.ZCatalog.ZCatalog"/>
+</tool-setup>

@@ -16,26 +16,29 @@ from ftw.glossary import GlossarMessageFactory as _
 GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
 
-    atapi.TextField('description',
+    atapi.TextField('definition',
         required=False,
-        accessor='Description',
         validators=('isTidyHtmlWithCleanup',),
-        widget=atapi.RichWidget(label=_(u"label_description", default="Description"),
-                                description=_(u"help_description", default="Rich text describing this term"),
-                                rows=25,
-                                allow_file_upload=False),
+        default_output_type = 'text/x-html-safe',
+        widget=atapi.RichWidget(
+            label=_(u"label_definition", default="Definition"),
+            description=_(u"help_definition", default="Rich text describing this term"),
+            rows=25,
+            allow_file_upload=False,
         ),
+    ),
 
     atapi.LinesField('categories',
         multiValued=True,
         vocabulary_factory = 'ftw.glossary.categories',
         enforceVocabulary=True,
-        widget=atapi.MultiSelectionWidget(label=_(u"label_categories",
-            default="Categories"),
-            description=_(u"help_categories", default="One or more categories this term belongs to")
-            )
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"label_categories", default="Categories"),
+            description=_(u"help_categories", default="One or more categories this term belongs to"),
         ),
-    ))
+    ),
+
+))
 
 GlossaryItemSchema['title'].widget.label = _(u"label_term", default="Term")
 GlossaryItemSchema['title'].widget.description = _(u"help_term", default="Term to be defined")
@@ -54,7 +57,7 @@ class GlossaryItem(base.ATCTContent):
     _at_rename_after_creation = True
     schema = GlossaryItemSchema
 
-    def first_letter(self):
+    def getFirstLetter(self):
         letter = ''
         title = self.Schema().getField('title').get(self)
         for i in range(len(title)):
@@ -63,6 +66,8 @@ class GlossaryItem(base.ATCTContent):
                 break
         return letter
 
+    def getSortableTitle(self):
+        return self.Title().lower()
 
 atapi.registerType(GlossaryItem, PROJECTNAME)
 

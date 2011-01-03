@@ -30,7 +30,7 @@
 
         <!-- <h2>Description</h2>  -->
     <div>
-            <span metal:use-macro="python:context.widget('description', mode='view')" />
+            <span metal:use-macro="python:context.widget('definition', mode='view')" />
         </div>
 
         <div>

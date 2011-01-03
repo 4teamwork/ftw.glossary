@@ -118,16 +118,16 @@ class GlossaryView(BrowserView):
             return None
         else:
             pattern = quote_bad_chars(pattern)
-            catalog = getToolByName(self.context, 'portal_catalog')
+            catalog = getToolByName(self.context, 'glossary_catalog')
             if not alphabetical:
-                brains = catalog(portal_type='GlossaryItem', Title = "%s*" % pattern, sort_on='sortable_title')
+                brains = catalog(Title="%s*" % pattern, sort_on='getSortableTitle')
             else:
                 if not pattern == '0-9':
-                    brains = catalog(portal_type='GlossaryItem', first_letter = pattern, sort_on='sortable_title')
+                    brains = catalog(getFirstLetter=pattern, sort_on='getSortableTitle')
                 else:
                     brains = []
                     for digit in range(10):
-                        brains += catalog(portal_type='GlossaryItem', first_letter = str(digit), sort_on='sortable_title')
+                        brains += catalog(getFirstLetter=str(digit), sort_on='getSortableTitle')
             return brains
 
     def matching_terms(self, term=None):
@@ -169,10 +169,10 @@ class GlossaryView(BrowserView):
 
         # Filter results by category, including only those that match
         for brain in brains:
-            include = any([True for c in categories if c in brain.categories])
+            include = any([True for c in categories if c in brain.getCategories])
             if include:
                 glossary_items.append(dict(term=brain.Title,
-                                           description=brain.Description,
+                                           description=brain.getDefinition,
                                            url=brain.getURL()))
         if mode == 'python':
             return glossary_items
