@@ -44,7 +44,7 @@ GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
 GlossaryItemSchema['title'].widget.label = _(u"label_term", default="Term")
 GlossaryItemSchema['title'].widget.description = _(u"help_term", default="Term to be defined")
-
+GlossaryItemSchema['description'].widget.visible = {'view': 'invisible', 'edit': 'invisible'}
 GlossaryItemSchema['excludeFromNav'].default = True
 
 
