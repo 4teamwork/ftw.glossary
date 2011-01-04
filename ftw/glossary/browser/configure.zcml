@@ -27,4 +27,11 @@
       permission="zope2.View"
       />
 
+    <browser:page
+      for="Products.ATContentTypes.interface.folder.IATFolder"
+      name="glossary-maintenance"
+      class=".maintenance.GlossaryMaintenanceView"
+      allowed_interface="..interfaces.IGlossaryMaintencanceView"
+      permission="cmf.ManagePortal"
+      />      
 </configure>
