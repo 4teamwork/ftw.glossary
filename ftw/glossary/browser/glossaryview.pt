@@ -10,8 +10,6 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-    <h1 i18n:translate="title_glossary">Glossary</h1>
-
     <form method="post" id="glossaryform"
           tal:attributes="action string:${context/absolute_url}/${view/__name__}">
 
