@@ -1,20 +1,17 @@
 """Definition of the GlossaryItem content type.
 """
-
+import re
 from zope.interface import implements
-
 from Products.Archetypes import atapi
-
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
-
+from Products.CMFPlone.utils import safe_unicode
 from ftw.glossary.interfaces import IGlossaryItem
 from ftw.glossary.config import PROJECTNAME
-
 from ftw.glossary import GlossarMessageFactory as _
 
-GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
+GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.TextField('definition',
         required=False,
@@ -69,7 +66,20 @@ class GlossaryItem(base.ATCTContent):
         return letter
 
     def getSortableTitle(self):
-        return self.Title().lower()
+        # Code taken from sortable_title indexer in Products.CMFPlone.CatalogTool.py
+        sortabletitle = self.Title().lower().strip()
+        # Replace numbers with zero filled numbers
+        sortabletitle = num_sort_regex.sub(zero_fill, sortabletitle)
+        # Truncate to prevent bloat
+        sortabletitle = safe_unicode(sortabletitle)[:70].encode('utf-8')
+        return sortabletitle
+
+
+def zero_fill(matchobj):
+    return matchobj.group().zfill(6)
+
+num_sort_regex = re.compile('\d+')
+
 
 atapi.registerType(GlossaryItem, PROJECTNAME)
 
