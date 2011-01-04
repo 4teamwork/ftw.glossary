@@ -20,7 +20,7 @@ msgstr "Definition eines Begriffs"
 msgid "GlossaryItem"
 msgstr "Glossarbegriff"
 
-#: ./ftw/glossary/browser/glossaryview.pt:34
+#: ./ftw/glossary/browser/glossary_view.pt:34
 msgid "Search"
 msgstr "Suchen"
 
@@ -59,13 +59,13 @@ msgid "label_term"
 msgstr "Begriff"
 
 #. Default: "Categories"
-#: ./ftw/glossary/browser/glossaryview.pt:19
+#: ./ftw/glossary/browser/glossary_view.pt:19
 msgid "title_categories"
 msgstr "Kategorien"
 
 #. Default: "Glossary"
 #: ./ftw/glossary/browser/glossaryitemview.pt:19
-#: ./ftw/glossary/browser/glossaryview.pt:13
+#: ./ftw/glossary/browser/glossary_view.pt:13
 msgid "title_glossary"
 msgstr "Glossar"
 

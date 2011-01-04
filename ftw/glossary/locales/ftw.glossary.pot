@@ -25,7 +25,7 @@ msgstr ""
 msgid "GlossaryItem"
 msgstr ""
 
-#: ./ftw/glossary/browser/glossaryview.pt:34
+#: ./ftw/glossary/browser/glossary_view.pt:34
 msgid "Search"
 msgstr ""
 
@@ -64,13 +64,13 @@ msgid "label_term"
 msgstr ""
 
 #. Default: "Categories"
-#: ./ftw/glossary/browser/glossaryview.pt:19
+#: ./ftw/glossary/browser/glossary_view.pt:19
 msgid "title_categories"
 msgstr ""
 
 #. Default: "Glossary"
 #: ./ftw/glossary/browser/glossaryitemview.pt:19
-#: ./ftw/glossary/browser/glossaryview.pt:13
+#: ./ftw/glossary/browser/glossary_view.pt:13
 msgid "title_glossary"
 msgstr ""
 

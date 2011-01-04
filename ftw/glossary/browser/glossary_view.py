@@ -82,7 +82,7 @@ class GlossaryView(BrowserView):
 
     implements(IGlossaryView)
 
-    template = ViewPageTemplateFile('glossaryview.pt')
+    template = ViewPageTemplateFile('glossary_view.pt')
 
     def __call__(self):
         """

@@ -8,8 +8,8 @@
     <browser:page
       for="Products.ATContentTypes.interface.folder.IATFolder"
       name="glossary_view"
-      class=".glossaryview.GlossaryView"
-      allowed_interface=".glossaryview.IGlossaryView"
+      class=".glossary_view.GlossaryView"
+      allowed_interface=".glossary_view.IGlossaryView"
       permission="zope2.View"
       />
 
