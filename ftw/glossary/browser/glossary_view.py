@@ -197,4 +197,6 @@ class GlossaryView(BrowserView):
     def getCategories(self):
         voc_factory = queryUtility(IVocabularyFactory, 'ftw.glossary.categories')
         vocabulary = voc_factory(self.context)
-        return [term.value for term in vocabulary]
+        values = [term.value for term in vocabulary]
+        values.sort()
+        return values
