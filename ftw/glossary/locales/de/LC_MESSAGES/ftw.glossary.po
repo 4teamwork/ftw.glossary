@@ -18,7 +18,7 @@ msgstr "Definition eines Begriffs"
 
 #: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
 msgid "GlossaryItem"
-msgstr ""
+msgstr "Glossarbegriff"
 
 #: ./ftw/glossary/browser/glossaryview.pt:34
 msgid "Search"
