@@ -3,6 +3,8 @@ import os
 
 version = '0.1'
 
+tests_require=['zope.testing']
+
 setup(name='ftw.glossary',
       version=version,
       description="Content Type for defining terms in a glossary",
@@ -25,9 +27,12 @@ setup(name='ftw.glossary',
       zip_safe=False,
       install_requires=[
           'setuptools',
-	  'collective.js.jqueryui',
+          'collective.js.jqueryui',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'ftw.glossary.tests.test_docs.test_suite',
       entry_points="""
       # -*- Entry points: -*-
 
