@@ -15,3 +15,8 @@ class IGlossaryItem(Interface):
 
     categories = schema.List(title=_(u"label_categories", default="Categories"),
         required=True)
+
+
+class IGlossaryCategory(Interface):
+    """A glossary category.
+    """

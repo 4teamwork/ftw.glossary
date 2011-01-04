@@ -33,8 +33,6 @@ def initialize(context):
     # course, even if we import the module several times, it is only run
     # once.
 
-    from content import glossary_item
-
     content_types, constructors, ftis = atapi.process_types(
         atapi.listTypes(config.PROJECTNAME),
         config.PROJECTNAME)

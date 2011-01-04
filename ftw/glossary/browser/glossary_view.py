@@ -1,12 +1,13 @@
 import json
 import zope
 from AccessControl import getSecurityManager
-from ftw.glossary.vocabularies import GlossaryCategories
 from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements, Interface
+from zope.schema.interfaces import IVocabularyFactory
+from zope.component import queryUtility
 
 
 class IGlossaryView(Interface):
@@ -119,15 +120,22 @@ class GlossaryView(BrowserView):
         else:
             pattern = quote_bad_chars(pattern)
             catalog = getToolByName(self.context, 'glossary_catalog')
+            categories = self.request.form.get('categories', [])
             if not alphabetical:
-                brains = catalog(Title="%s*" % pattern, sort_on='getSortableTitle')
+                brains = catalog(Title="%s*" % pattern, 
+                                 getCategories=categories,
+                                 sort_on='getSortableTitle')
             else:
                 if not pattern == '0-9':
-                    brains = catalog(getFirstLetter=pattern, sort_on='getSortableTitle')
+                    brains = catalog(getFirstLetter=pattern,
+                                     getCategories=categories,
+                                     sort_on='getSortableTitle')
                 else:
                     brains = []
                     for digit in range(10):
-                        brains += catalog(getFirstLetter=str(digit), sort_on='getSortableTitle')
+                        brains += catalog(getFirstLetter=str(digit),
+                                          getCategories=categories,
+                                          sort_on='getSortableTitle')
             return brains
 
     def matching_terms(self, term=None):
@@ -142,6 +150,9 @@ class GlossaryView(BrowserView):
             response.setHeader('Content-Type','application/json')
             response.addHeader("Cache-Control", "no-cache")
             response.addHeader("Pragma", "no-cache")
+            # FIXME: temporary hack to get all terms in autocomplete.
+            # Should be fixed to get only terms of the selected categories.
+            self.request.form.update(dict(categories=self.getCategories()))
             terms = [brain.Title for brain in self._catalog_search(term)]
             return json.dumps(terms)
 
@@ -154,7 +165,7 @@ class GlossaryView(BrowserView):
         glossary_items = []
         brains = []
 
-        categories = self.request.get('categories', [])
+        
         search_term = self.request.get('glossary-search-field')
         search_letter = self.request.get('search_letter')
         mode = self.request.get('mode', 'python')
@@ -169,11 +180,9 @@ class GlossaryView(BrowserView):
 
         # Filter results by category, including only those that match
         for brain in brains:
-            include = any([True for c in categories if c in brain.getCategories])
-            if include:
-                glossary_items.append(dict(term=brain.Title,
-                                           description=brain.getDefinition,
-                                           url=brain.getURL()))
+            glossary_items.append(dict(term=brain.Title,
+                                       description=brain.getDefinition,
+                                       url=brain.getURL()))
         if mode == 'python':
             return glossary_items
         elif mode == 'json':
@@ -186,6 +195,6 @@ class GlossaryView(BrowserView):
             return []
 
     def getCategories(self):
-        vocabulary = GlossaryCategories(self.context)
-        categories = [term.value for term in vocabulary]
-        return categories
+        voc_factory = queryUtility(IVocabularyFactory, 'ftw.glossary.categories')
+        vocabulary = voc_factory(self.context)
+        return [term.value for term in vocabulary]

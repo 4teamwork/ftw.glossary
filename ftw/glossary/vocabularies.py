@@ -1,16 +1,21 @@
 from zope.schema import vocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
-from zope.interface import directlyProvides
+from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
 
-def GlossaryCategories(context):
-    """Returns a vocabulary of the available categories for
+
+class GlossaryCategoriesVocabulary(object):
+    """A vocabulary of the available categories for
     GlossaryItems.
     """
-    # context is the portal config options, whose context is the portal
-    categories = ['Allgemein', 'Annabelle']
-    terms = [SimpleTerm(value=c, token=c, title=c)
-            for c in categories]
+    implements(IVocabularyFactory)
 
-    directlyProvides(GlossaryCategories, IVocabularyFactory)
-    return vocabulary.SimpleVocabulary(terms)
+    def __call__(self, context):
+        ct = getToolByName(context, 'portal_catalog')
+        categories = ct(portal_type='GlossaryCategory')
+        terms = [SimpleTerm(value=c.Title, token=c.id, title=c.Title)
+                 for c in categories]
+        return vocabulary.SimpleVocabulary(terms)
+
+GlossaryCategoriesVocabularyFactory = GlossaryCategoriesVocabulary()

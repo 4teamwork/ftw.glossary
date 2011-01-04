@@ -8,5 +8,12 @@
         <role name="Contributor" />
         <role name="Editor" />
     </permission>
+
+    <permission name="ftw.glossary: Add GlossaryCategory" acquire="False">
+        <role name="Manager" />
+        <role name="Contributor" />
+        <role name="Editor" />
+    </permission>
+
   </permissions>
 </rolemap>

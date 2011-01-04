@@ -15,5 +15,6 @@ PROJECTNAME = "ftw.glossary"
 
 ADD_PERMISSIONS = {
     "GlossaryItem" : "ftw.glossary: Add GlossaryItem",
+    "GlossaryCategory": "ftw.glossary: Add GlossaryCategory",
 }
 

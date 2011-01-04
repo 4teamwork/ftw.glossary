@@ -10,5 +10,6 @@
 <object name="portal_factory" meta_type="Plone Factory Tool">
  <factorytypes>
   <type portal_type="GlossaryItem"/>
+  <type portal_type="GlossaryCategory"/>
  </factorytypes>
 </object>

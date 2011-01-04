@@ -10,6 +10,9 @@
     <!-- Include direct package dependencies -->
     <includeDependencies package="." />
 
+    <include package=".browser" /> 
+    <include package=".content" /> 
+
     <i18n:registerTranslations directory="locales" />
 
     <genericsetup:registerProfile
@@ -26,13 +29,10 @@
         description=""
         handler="ftw.glossary.setuphandlers.import_various" />
 
-    <include package=".browser" /> 
-
 
     <utility
-      provides="zope.schema.interfaces.IVocabularyFactory"
       name="ftw.glossary.categories"
-      component=".vocabularies.GlossaryCategories"
+      component=".vocabularies.GlossaryCategoriesVocabularyFactory"
       />
  
 </configure>

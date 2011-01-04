@@ -3,25 +3,19 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="ftw.glossary">
 
-    <!-- Declare security for the field properties of the various content
-         types, and register other components, such as validation subscription
-         adapters, event subscribers and adapter factories.
-        
-      -->
 
-    
-    <!-- GlossaryItems: -->
-    
     <class class=".glossary_item.GlossaryItem">
         <require
             permission="zope2.View"
             interface="..interfaces.IGlossaryItem"
             />
-        <require
-            permission="cmf.ModifyPortalContent"
-            set_schema="..interfaces.IGlossaryItem"
-            />
     </class>
     
+    <class class=".category.GlossaryCategory">
+        <require
+            permission="zope2.View"
+            interface="..interfaces.IGlossaryCategory"
+            />
+    </class>
     
 </configure>
