@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope import schema
 
 
 class IGlossaryItem(Interface):
@@ -18,3 +19,11 @@ class IGlossaryMaintencanceView(Interface):
     def purge_all():
         """Deletes all glossary items in the current folder.
         """
+
+class IGlossarySettings(Interface):
+    """Glossary settings"""
+
+    glossary_path = schema.TextLine(
+        title = u"Path of the glossary search page",
+        default = u"/de/systeme/glossar",
+    )

@@ -26,9 +26,8 @@
             <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?search_letter=${letter}" tal:content="letter">A</a>
         </tal:alphabetical-index>
         <br/><br/>
-
         <input type="hidden" name="form.submitted:boolean" value="True" />
-        <input name="glossary-search-field" type="text"/>
+        <input name="glossary-search-field" type="text" />
         <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search" i18n:attributes="value"/>
     </form>
     <br/>

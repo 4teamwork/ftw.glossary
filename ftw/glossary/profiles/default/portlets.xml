@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="ftw.glossary">
+
+    <portlet
+        addview="glossary.search"
+        title="Glossary search Portlet"
+        description="Searchform for glossary"
+        />
+
+</portlets>

@@ -1,13 +1,21 @@
 import json
 import zope
 from AccessControl import getSecurityManager
+from Acquisition import aq_inner
+
+from plone.memoize.view import memoize_contextless
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ftw.glossary.interfaces import IGlossarySettings
+
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component import queryUtility
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IVocabularyFactory
-from zope.component import queryUtility
 
 
 class IGlossaryView(Interface):
@@ -27,7 +35,6 @@ class IGlossaryView(Interface):
         either a JSON list or a python list (depending on `mode`) of
         dicts with terms and definitions.
         """
-
 
 
 class GlossaryView(BrowserView):
@@ -53,6 +60,7 @@ class GlossaryView(BrowserView):
                     results_html.append(jq('<dd/>').html(response[item].description));
                 }
                 jq('div#search-results').html(results_html);
+                jq('.template-glossary_view ul.ui-autocomplete').hide();
             }
 
             // Load search results with AJAX
@@ -77,6 +85,7 @@ class GlossaryView(BrowserView):
                     data=formdata,
                 display_results);
             });
+            
           
         });
 """
@@ -200,3 +209,16 @@ class GlossaryView(BrowserView):
         values = [term.value for term in vocabulary]
         values.sort()
         return values
+
+    @memoize_contextless
+    def glossary_url(self):
+        """Returns the language dependent url of the glossary view.
+        """
+        context = aq_inner(self.context)
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IGlossarySettings)
+        portal = getMultiAdapter((context, self.request),
+                                 name=u'plone_portal_state').portal()
+        phonebook_root = portal.unrestrictedTraverse(
+            settings.glossary_path.encode('utf8').lstrip('/')).getTranslation()
+        return phonebook_root.absolute_url()

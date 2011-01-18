@@ -1,0 +1,19 @@
+<dl class="portlet portletStaticText"
+    i18n:domain="plone">
+    
+    <dt class="portletHeader">
+        Glossary
+    </dt>
+    <dd class="portletItem even"
+        tal:define="portal_url context/@@plone_portal_state/portal_url;
+                    glossary_view nocall:context/@@glossary_view">
+        <form method="post" id="glossaryform-portlet"
+              tal:attributes="action glossary_view/glossary_url">
+            <input type="hidden" name="form.submitted:boolean" value="True" />
+            <input name="glossary-search-field" type="text" />
+            <input type="hidden" name="categories:list" value="Allgemein">
+            <input type="hidden" name="categories:list" value="Annabelle">
+            <input name="glossary-search-portlet-button" type="submit" class="allowMultiSubmit" value="Search" i18n:attributes="value"/>
+        </form>
+    </dd>
+</dl>
