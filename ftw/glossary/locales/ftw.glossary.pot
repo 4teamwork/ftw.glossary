@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-12-27 16:28+0000\n"
+"POT-Creation-Date: 2011-01-19 08:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,60 +17,70 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ftw.glossary\n"
 
+#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
 #: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
 msgid "Definition of a term"
+msgstr ""
+
+#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
+msgid "GlossaryCategory"
 msgstr ""
 
 #: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
 msgid "GlossaryItem"
 msgstr ""
 
-#: ./ftw/glossary/browser/glossary_view.pt:34
+#: ./ftw/glossary/browser/glossary_view.pt:31
+#: ./ftw/glossary/portlets/search.pt:24
 msgid "Search"
 msgstr ""
 
+#: ./ftw/glossary/portlets/search.pt:18
+msgid "Search glossary"
+msgstr ""
+
 #. Default: "One or more categories this term belongs to"
-#: ./ftw/glossary/content/glossary_item.py:35
+#: ./ftw/glossary/content/glossary_item.py:36
 msgid "help_categories"
 msgstr ""
 
 #. Default: "Rich text describing this term"
 #: ./ftw/glossary/content/glossary_item.py:24
-#: ./ftw/glossary/interfaces.py:13
-msgid "help_description"
+msgid "help_definition"
 msgstr ""
 
 #. Default: "Term to be defined"
-#: ./ftw/glossary/content/glossary_item.py:41
+#: ./ftw/glossary/content/glossary_item.py:43
 msgid "help_term"
 msgstr ""
 
 #. Default: "Categories"
-#: ./ftw/glossary/content/glossary_item.py:33
-#: ./ftw/glossary/interfaces.py:16
+#: ./ftw/glossary/content/glossary_item.py:35
 msgid "label_categories"
 msgstr ""
 
-#. Default: "Description"
+#. Default: "Definition"
 #: ./ftw/glossary/content/glossary_item.py:23
-#: ./ftw/glossary/interfaces.py:12
-msgid "label_description"
+msgid "label_definition"
+msgstr ""
+
+#. Default: "Glossary Portlet"
+#: ./ftw/glossary/portlets/search.py:16
+msgid "label_glossaryportlet"
 msgstr ""
 
 #. Default: "Term"
-#: ./ftw/glossary/content/glossary_item.py:40
-#: ./ftw/glossary/interfaces.py:9
+#: ./ftw/glossary/content/glossary_item.py:42
 msgid "label_term"
 msgstr ""
 
 #. Default: "Categories"
-#: ./ftw/glossary/browser/glossary_view.pt:19
+#: ./ftw/glossary/browser/glossary_view.pt:17
 msgid "title_categories"
 msgstr ""
 
 #. Default: "Glossary"
 #: ./ftw/glossary/browser/glossaryitemview.pt:19
-#: ./ftw/glossary/browser/glossary_view.pt:13
 msgid "title_glossary"
 msgstr ""
 

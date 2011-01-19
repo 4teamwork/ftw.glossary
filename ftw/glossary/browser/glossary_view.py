@@ -219,6 +219,6 @@ class GlossaryView(BrowserView):
         settings = registry.forInterface(IGlossarySettings)
         portal = getMultiAdapter((context, self.request),
                                  name=u'plone_portal_state').portal()
-        phonebook_root = portal.unrestrictedTraverse(
+        glossary_root = portal.unrestrictedTraverse(
             settings.glossary_path.encode('utf8').lstrip('/')).getTranslation()
-        return phonebook_root.absolute_url()
+        return glossary_root.absolute_url()
