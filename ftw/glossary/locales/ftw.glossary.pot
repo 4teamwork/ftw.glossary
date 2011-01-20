@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-19 08:03+0000\n"
+"POT-Creation-Date: 2011-01-20 08:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,11 +31,11 @@ msgid "GlossaryItem"
 msgstr ""
 
 #: ./ftw/glossary/browser/glossary_view.pt:31
-#: ./ftw/glossary/portlets/search.pt:24
+#: ./ftw/glossary/portlets/search.pt:20
 msgid "Search"
 msgstr ""
 
-#: ./ftw/glossary/portlets/search.pt:18
+#: ./ftw/glossary/portlets/search.pt:14
 msgid "Search glossary"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgid "label_definition"
 msgstr ""
 
 #. Default: "Glossary Portlet"
-#: ./ftw/glossary/portlets/search.py:16
+#: ./ftw/glossary/portlets/search.py:23
 msgid "label_glossaryportlet"
 msgstr ""
 
