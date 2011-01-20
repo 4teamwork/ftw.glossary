@@ -2,7 +2,8 @@
     i18n:domain="ftw.glossary">
     
     <dt class="portletHeader">
-        Glossary
+        <a tal:attributes="href view/get_glossary_url"
+           i18n:translate="title_glossary">Glossary</a>
     </dt>
     <dd class="portletItem even"
         tal:define="glossary_url view/get_glossary_url">
@@ -19,7 +20,6 @@
                    />
             <input name="glossary-search-portlet-button"
                    type="submit"
-                   class="allowMultiSubmit inputLabelActive"
                    value="Search"
                    i18n:attributes="value"
                    />

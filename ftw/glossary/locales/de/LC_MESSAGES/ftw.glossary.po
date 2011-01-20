@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2011-01-20 08:02+0000\n"
+"POT-Creation-Date: 2011-01-20 16:11+0000\n"
 "PO-Revision-Date: 2010-09-15 11:39+0000\n"
 "Last-Translator: Lukas Graf <lukas.graf@4teamwork.ch>\n"
 "Language-Team: German <lukas.graf@4teamwork.ch>\n"
@@ -28,7 +28,7 @@ msgstr "Glossarbegriff"
 #: ./ftw/glossary/browser/glossary_view.pt:31
 #: ./ftw/glossary/portlets/search.pt:20
 msgid "Search"
-msgstr "Suchen"
+msgstr "Suche"
 
 #: ./ftw/glossary/portlets/search.pt:14
 msgid "Search glossary"
@@ -76,6 +76,7 @@ msgstr "Kategorien"
 
 #. Default: "Glossary"
 #: ./ftw/glossary/browser/glossaryitemview.pt:19
+#: ./ftw/glossary/portlets/search.pt:5
 msgid "title_glossary"
 msgstr "Glossar"
 

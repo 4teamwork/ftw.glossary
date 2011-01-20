@@ -15,28 +15,14 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: ftw.glossary\n"
+"Domain: plone\n"
 
-#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
-#: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
-msgid "Definition of a term"
+#: ./ftw/glossary/profiles/default/portlets.xml
+msgid "Glossary search Portlet"
 msgstr ""
 
-#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
-msgid "GlossaryCategory"
-msgstr ""
-
-#: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
-msgid "GlossaryItem"
-msgstr ""
-
-#: ./ftw/glossary/browser/glossary_view.pt:31
-#: ./ftw/glossary/portlets/search.pt:20
-msgid "Search"
-msgstr ""
-
-#: ./ftw/glossary/portlets/search.pt:14
-msgid "Search glossary"
+#: ./ftw/glossary/profiles/default/portlets.xml
+msgid "Searchform for glossary."
 msgstr ""
 
 #. Default: "One or more categories this term belongs to"
@@ -72,16 +58,5 @@ msgstr ""
 #. Default: "Term"
 #: ./ftw/glossary/content/glossary_item.py:42
 msgid "label_term"
-msgstr ""
-
-#. Default: "Categories"
-#: ./ftw/glossary/browser/glossary_view.pt:17
-msgid "title_categories"
-msgstr ""
-
-#. Default: "Glossary"
-#: ./ftw/glossary/browser/glossaryitemview.pt:19
-#: ./ftw/glossary/portlets/search.pt:5
-msgid "title_glossary"
 msgstr ""
 

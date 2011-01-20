@@ -1,6 +1,3 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -12,32 +9,16 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: ftw.glossary\n"
+"Domain: DOMAIN\n"
 
-#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
-#: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
-msgid "Definition of a term"
-msgstr ""
+#: ./ftw/glossary/profiles/default/portlets.xml
+msgid "Glossary search Portlet"
+msgstr "Glossarsuche"
 
-#: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
-msgid "GlossaryCategory"
-msgstr ""
-
-#: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
-msgid "GlossaryItem"
-msgstr ""
-
-#: ./ftw/glossary/browser/glossary_view.pt:31
-#: ./ftw/glossary/portlets/search.pt:20
-msgid "Search"
-msgstr ""
-
-#: ./ftw/glossary/portlets/search.pt:14
-msgid "Search glossary"
-msgstr ""
+#: ./ftw/glossary/profiles/default/portlets.xml
+msgid "Searchform for glossary."
+msgstr "Suche für das Glossar"
 
 #. Default: "One or more categories this term belongs to"
 #: ./ftw/glossary/content/glossary_item.py:36
@@ -74,14 +55,4 @@ msgstr ""
 msgid "label_term"
 msgstr ""
 
-#. Default: "Categories"
-#: ./ftw/glossary/browser/glossary_view.pt:17
-msgid "title_categories"
-msgstr ""
-
-#. Default: "Glossary"
-#: ./ftw/glossary/browser/glossaryitemview.pt:19
-#: ./ftw/glossary/portlets/search.pt:5
-msgid "title_glossary"
-msgstr ""
 

@@ -221,4 +221,9 @@ class GlossaryView(BrowserView):
                                  name=u'plone_portal_state').portal()
         glossary_root = portal.unrestrictedTraverse(
             settings.glossary_path.encode('utf8').lstrip('/')).getTranslation()
-        return glossary_root.absolute_url()
+        if glossary_root:
+            translation = glossary_root.getTranslation()
+            if translation:
+                return translation.absolute_url()
+            return glossary_root.absolute_url()
+        return ''
