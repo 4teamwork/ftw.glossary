@@ -27,7 +27,7 @@ class Renderer(base.Renderer):
     render = ViewPageTemplateFile('search.pt')
 
     def get_glossary_url(self):
-        """Returns the language dependent url of the glossary view.
+        """Returns the language dependent url of the glossary.
         """
         context = aq_inner(self.context)
         registry = getUtility(IRegistry)
@@ -35,7 +35,7 @@ class Renderer(base.Renderer):
         portal = getMultiAdapter((context, self.request),
                                  name=u'plone_portal_state').portal()
         glossary_root = portal.unrestrictedTraverse(
-            settings.glossary_path.encode('utf8').lstrip('/')).getTranslation()
+            settings.glossary_path.encode('utf8').lstrip('/'), None)
         if glossary_root:
             translation = glossary_root.getTranslation()
             if translation:
