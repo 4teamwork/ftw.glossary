@@ -130,22 +130,18 @@ class GlossaryView(BrowserView):
             pattern = quote_bad_chars(pattern)
             catalog = getToolByName(self.context, 'glossary_catalog')
             categories = self.request.form.get('categories', [])
+            query = {}
+            
+            if categories:
+                query['getCategories'] = categories
+
             if not alphabetical:
-                brains = catalog(Title="%s*" % pattern, 
-                                 getCategories=categories,
-                                 sort_on='getSortableTitle')
+                query['Title'] = "%s*" % pattern
             else:
-                if not pattern == '0-9':
-                    brains = catalog(getFirstLetter=pattern,
-                                     getCategories=categories,
-                                     sort_on='getSortableTitle')
-                else:
-                    brains = []
-                    for digit in range(10):
-                        brains += catalog(getFirstLetter=str(digit),
-                                          getCategories=categories,
-                                          sort_on='getSortableTitle')
-            return brains
+                query['getFirstLetter'] = pattern[:1]
+
+            query['sort_on'] = 'getSortableTitle'
+            return catalog(**query)
 
     def matching_terms(self, term=None):
         """

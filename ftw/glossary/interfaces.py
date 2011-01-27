@@ -20,6 +20,10 @@ class IGlossaryMaintencanceView(Interface):
         """Deletes all glossary items in the current folder.
         """
 
+    def index():
+        """Catalogs all glossary items in the current folder.
+        """
+
 class IGlossarySettings(Interface):
     """Glossary settings"""
 
