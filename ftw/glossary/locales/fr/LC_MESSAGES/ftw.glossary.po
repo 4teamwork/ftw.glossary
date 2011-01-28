@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-20 08:02+0000\n"
+"POT-Creation-Date: 2011-01-28 15:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,36 +26,36 @@ msgid "GlossaryItem"
 msgstr "Glossaire élément"
 
 #: ./ftw/glossary/browser/glossary_view.pt:31
-#: ./ftw/glossary/portlets/search.pt:20
+#: ./ftw/glossary/portlets/search.pt:21
 msgid "Search"
-msgstr "Recherche"
+msgstr "Rechercher"
 
-#: ./ftw/glossary/portlets/search.pt:14
+#: ./ftw/glossary/portlets/search.pt:15
 msgid "Search glossary"
-msgstr "Recherche glossaire"
+msgstr "Parcourir le glossaire"
 
 #. Default: "One or more categories this term belongs to"
-#: ./ftw/glossary/content/glossary_item.py:36
+#: ./ftw/glossary/content/glossary_item.py:38
 msgid "help_categories"
 msgstr ""
 
 #. Default: "Rich text describing this term"
-#: ./ftw/glossary/content/glossary_item.py:24
+#: ./ftw/glossary/content/glossary_item.py:26
 msgid "help_definition"
 msgstr ""
 
 #. Default: "Term to be defined"
-#: ./ftw/glossary/content/glossary_item.py:43
+#: ./ftw/glossary/content/glossary_item.py:45
 msgid "help_term"
 msgstr ""
 
 #. Default: "Categories"
-#: ./ftw/glossary/content/glossary_item.py:35
+#: ./ftw/glossary/content/glossary_item.py:37
 msgid "label_categories"
 msgstr "Catégories"
 
 #. Default: "Definition"
-#: ./ftw/glossary/content/glossary_item.py:23
+#: ./ftw/glossary/content/glossary_item.py:25
 msgid "label_definition"
 msgstr "Définition"
 
@@ -65,7 +65,7 @@ msgid "label_glossaryportlet"
 msgstr "Glossaire Portlet"
 
 #. Default: "Term"
-#: ./ftw/glossary/content/glossary_item.py:42
+#: ./ftw/glossary/content/glossary_item.py:44
 msgid "label_term"
 msgstr "Terme"
 
@@ -76,6 +76,7 @@ msgstr "Catégories"
 
 #. Default: "Glossary"
 #: ./ftw/glossary/browser/glossaryitemview.pt:19
+#: ./ftw/glossary/portlets/search.pt:5
 msgid "title_glossary"
 msgstr "Glossaire"
 
