@@ -18,6 +18,11 @@
        file="resources/glossary-item.css"
        />
 
+    <browser:resource
+       name="ftw.glossary.glossary.js"
+       file="resources/glossary.js"
+       />
+
     <browser:page
       for="..interfaces.IGlossaryItem"
       name="view"

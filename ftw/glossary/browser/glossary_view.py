@@ -1,11 +1,9 @@
 import json
 import zope
-from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 
 from plone.memoize.view import memoize_contextless
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -29,87 +27,30 @@ class IGlossaryView(Interface):
         Return a list of those terms from the catalog that match `term`.
         """
 
-    def get_glossary_items(self, search_term=None, mode='python'):
-        """
-        Search for GlossaryItems matching `self.search_term` and return
-        either a JSON list or a python list (depending on `mode`) of
-        dicts with terms and definitions.
+    def results():
+        """Returns the rendered search results.
         """
 
 
 class GlossaryView(BrowserView):
+    """Glossary browser view - Enable display of and search for terms
     """
-    Glossary browser view - Enable display of and search for terms
-    """
-    AJAX_SEARCH_JS = """
-        jq(function() {
-            var edit_permission = %s;
-
-            var display_results = function(response) {
-                var results_html = jq('<dl/>');
-                for (var item in response) {
-                    if (edit_permission) {
-                        var link = jq('<a/>').text(response[item].term);
-                        link.attr('href', response[item].url);
-                        var term = jq('<dt/>').append(link);
-                    }
-                    else {
-                        var term = jq('<dt/>').html(response[item].term);
-                    }
-                    results_html.append(term);
-                    results_html.append(jq('<dd/>').html(response[item].description));
-                }
-                jq('div#search-results').html(results_html);
-                jq('.template-glossary_view ul.ui-autocomplete').hide();
-            }
-
-            // Load search results with AJAX
-            jq('input[name=glossary-search-button]').click(function(event) {
-                event.preventDefault();
-                var formdata = jq('#glossaryform').serializeArray();
-                formdata.push(new Object({name: 'mode', value: 'json'}));
-
-                jq.getJSON('%s',
-                    data=formdata,
-                display_results);
-            });
-
-            // Load index query results with AJAX
-            jq('a.glossary-index-links').click(function(event) {
-                event.preventDefault();
-                var formdata = jq('#glossaryform').serializeArray();
-                formdata.push(new Object({name: 'mode', value: 'json'}));
-                formdata.push(new Object({name: 'search_letter', value: jq(this).text()}));
-
-                jq.getJSON('%s',
-                    data=formdata,
-                display_results);
-            });
-            
-          
-        });
-"""
 
     implements(IGlossaryView)
 
     template = ViewPageTemplateFile('glossary_view.pt')
+    results_template = ViewPageTemplateFile('results.pt')
 
     def __call__(self):
+        """Self-submitting form that displays a search field and
+           results from the search.
         """
-        Self-submitting form that displays a search field and
-        results from the search
-        """
-        ajax_url = '/'.join([self.context.absolute_url(),
-                             self.__name__,
-                             'get_glossary_items'])
-
-        sm = getSecurityManager()
-        edit_permission = sm.checkPermission(permissions.ModifyPortalContent,self.context)
-
-        self.ajax_search_js = self.AJAX_SEARCH_JS % (edit_permission and 'true' or 'false', ajax_url, ajax_url)
-
         return self.template()
 
+    def results(self):
+        """Returns the rendered search results.
+        """
+        return self.results_template()
 
     def _catalog_search(self, pattern, alphabetical=False):
         """Search catalog for GlossaryItems matching `pattern`"""
@@ -148,63 +89,40 @@ class GlossaryView(BrowserView):
         Search for GlossaryItems matching `term` and return a JSON list
         of just the terms to be used by jquery.ui.autocomplete()
         """
-        if term is None:
+        term = term.strip()
+        if not term:
             return []
         else:
             response = self.request.response
             response.setHeader('Content-Type','application/json')
-            response.addHeader("Cache-Control", "no-cache")
-            response.addHeader("Pragma", "no-cache")
-            # FIXME: temporary hack to get all terms in autocomplete.
-            # Should be fixed to get only terms of the selected categories.
-            self.request.form.update(dict(categories=self.getCategories()))
             terms = [brain.Title for brain in self._catalog_search(term)]
             return json.dumps(terms)
 
-    def get_glossary_items(self, search_term=None, search_letter=None, mode='python'):
-        """
-        Search for GlossaryItems matching `search_term` or `search_letter`,
-        filter the results by category and return either a JSON list or a
-        python list (depending on `mode`) of dicts with terms and definitions.
-        """
-        glossary_items = []
-        brains = []
 
-        
-        search_term = self.request.get('glossary-search-field')
-        search_letter = self.request.get('search_letter')
-        mode = self.request.get('mode', 'python')
+    def glossary_items(self):
+        """Returns a list of all matching glossary items.
+        """
+        search_term = self.request.form.get('glossary-search-field', '')
+        search_letter = self.request.form.get('search_letter', '')
 
         # We're returning the alphabetical listing
         if search_letter not in ('', None):
-            brains = self._catalog_search(search_letter.lower(), alphabetical=True)
+            return self._catalog_search(search_letter.lower(), alphabetical=True)
 
         # We're searching for text
         elif search_term not in ('', None):
-            brains = self._catalog_search(search_term)
+            return self._catalog_search(search_term)
 
-        # Filter results by category, including only those that match
-        for brain in brains:
-            glossary_items.append(dict(term=brain.Title,
-                                       description=brain.getDefinition,
-                                       url=brain.getURL()))
-        if mode == 'python':
-            return glossary_items
-        elif mode == 'json':
-            response = self.request.response
-            response.setHeader('Content-Type','application/json')
-            response.addHeader("Cache-Control", "no-cache")
-            response.addHeader("Pragma", "no-cache")
-            return json.dumps(glossary_items)
-        else:
-            return []
+        return []
 
-    def getCategories(self):
+    def categories(self):
+        """Returns a sorted list of all available categories.
+        """
         voc_factory = queryUtility(IVocabularyFactory, 'ftw.glossary.categories')
         vocabulary = voc_factory(self.context)
-        values = [term.value for term in vocabulary]
-        values.sort()
-        return values
+        terms = [term for term in vocabulary]
+        terms.sort(key=lambda x:x.token)
+        return terms
 
     @memoize_contextless
     def glossary_url(self):

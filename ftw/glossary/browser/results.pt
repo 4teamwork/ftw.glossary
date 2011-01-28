@@ -1,0 +1,18 @@
+<tal:results tal:define="mtool context/@@plone_tools/membership;
+                         canEdit python:mtool.checkPermission('Modify portal content', context);
+                         terms view/glossary_items"
+             tal:condition="terms">
+    <dl class="glossaryItems">
+        <tal:items tal:repeat="item terms">
+        <dt>
+            <tal:canedit condition="canEdit">
+            <a href="" tal:content="item/Title" tal:attributes="href item/getURL"/>
+            </tal:canedit>
+            <tal:readonly condition="not:canEdit">
+            <span tal:replace="item/Title" />
+            </tal:readonly>
+        </dt>
+        <dd tal:content="structure item/getDefinition"/>
+        </tal:items>
+    </dl>
+</tal:results>

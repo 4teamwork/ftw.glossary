@@ -6,13 +6,6 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ftw.glossary">
 <body>
-    
-<metal:css fill-slot="css_slot">
-    <!-- FIXME - This CSS resource doesn't seem to get loaded -->
-    <style type="text/css" media="all"
-            tal:content="string: @import url(${context/++resource++glossary-item.css});">
-    </style>
-</metal:css>
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
@@ -29,16 +22,13 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <!-- <h2>Description</h2>  -->
-    <div>
+        <div>
             <span metal:use-macro="python:context.widget('definition', mode='view')" />
         </div>
 
         <div>
-            <strong>Categories:</strong> 
-        <!-- TODO - Link categories to actual targets -->
-        <a href="#">
+            <strong>Categories:</strong>
             <span metal:use-macro="python:context.widget('categories', mode='view')" />
-        </a>
         </div>
 
         <div metal:use-macro="context/document_relateditems/macros/relatedItems">

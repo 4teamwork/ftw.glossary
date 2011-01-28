@@ -5,6 +5,13 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ftw.glossary">
+
+<head>
+    <metal:javascript fill-slot="javascript_head_slot">
+        <script language="javascript" tal:attributes="src string:${context/portal_url}/++resource++ftw.glossary.glossary.js"></script>
+    </metal:javascript>
+</head>
+
 <body>
 
 <metal:content-core fill-slot="content-core">
@@ -15,9 +22,9 @@
 
         <div style="float: right">
         <h3 i18n:translate="title_categories">Categories</h3>
-        <tal:categories tal:repeat="category view/getCategories">
-        <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category">
-        &nbsp;<label tal:content="category" /><br/>
+        <tal:categories tal:repeat="category view/categories">
+        <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category/value; id category/token;">
+        &nbsp;<label tal:content="category/title" tal:attributes="for category/token"/><br/>
         </tal:categories>
         </div>
 
@@ -32,22 +39,10 @@
     </form>
     <br/>
 
-        <script type="text/javascript"
-            tal:content="string:jq('input[name=glossary-search-field]').autocomplete(
-                {source:'${context/absolute_url}/${view/__name__}/matching_terms'});">
-        </script>
+    <div id="glossary-searchresults" tal:content="structure view/results" />
 
-    <div id="search-results">
-        <dl tal:define="terms view/get_glossary_items">
-            <tal:items tal:repeat="item terms">
-            <dt><a href="" tal:content="item/term" tal:attributes="href item/url"/></dt>
-            <dd tal:content="structure item/description"/>
-            </tal:items>
-        </dl>
-    </div>
+    <div tal:content="structure context/glossar/getText|nothing"></div>
 
-    <script type="text/javascript" tal:content="structure view/ajax_search_js"/>
-    
     </metal:content-core>
 </metal:content-core>
 
