@@ -4,7 +4,7 @@
    i18n:domain="ftw.glossary" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">GlossaryCategory</property>
  <property name="description"
-     i18n:translate="">Definition of a term</property>
+     i18n:translate="">A category for glossary items</property>
  <property name="content_meta_type">GlossaryCategory</property>
  <property name="product">ftw.glossary</property>
  <property name="factory">addGlossaryCategory</property>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2011-01-20 16:11+0000\n"
+"POT-Creation-Date: 2011-01-28 15:06+0000\n"
 "PO-Revision-Date: 2010-09-15 11:39+0000\n"
 "Last-Translator: Lukas Graf <lukas.graf@4teamwork.ch>\n"
 "Language-Team: German <lukas.graf@4teamwork.ch>\n"
@@ -13,49 +13,52 @@ msgstr ""
 "Domain: ftw.glossary\n"
 
 #: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
+msgid "A category for glossary items"
+msgstr "Kategoriedefinition für Glossarbegriffe"
+
 #: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
 msgid "Definition of a term"
 msgstr "Definition eines Begriffs"
 
 #: ./ftw/glossary/profiles/default/types/GlossaryCategory.xml
 msgid "GlossaryCategory"
-msgstr ""
+msgstr "Glossarkategorie"
 
 #: ./ftw/glossary/profiles/default/types/GlossaryItem.xml
 msgid "GlossaryItem"
 msgstr "Glossarbegriff"
 
-#: ./ftw/glossary/browser/glossary_view.pt:31
-#: ./ftw/glossary/portlets/search.pt:20
+#: ./ftw/glossary/browser/glossary_view.pt:38
+#: ./ftw/glossary/portlets/search.pt:21
 msgid "Search"
 msgstr "Suche"
 
-#: ./ftw/glossary/portlets/search.pt:14
+#: ./ftw/glossary/portlets/search.pt:15
 msgid "Search glossary"
 msgstr "Glossar durchsuchen"
 
 #. Default: "One or more categories this term belongs to"
-#: ./ftw/glossary/content/glossary_item.py:36
+#: ./ftw/glossary/content/glossary_item.py:38
 msgid "help_categories"
 msgstr "Eine odere mehrere Kategorien für diesen Glossarbegriff"
 
 #. Default: "Rich text describing this term"
-#: ./ftw/glossary/content/glossary_item.py:24
+#: ./ftw/glossary/content/glossary_item.py:26
 msgid "help_definition"
 msgstr ""
 
 #. Default: "Term to be defined"
-#: ./ftw/glossary/content/glossary_item.py:43
+#: ./ftw/glossary/content/glossary_item.py:45
 msgid "help_term"
 msgstr "Zu definierender Begriff"
 
 #. Default: "Categories"
-#: ./ftw/glossary/content/glossary_item.py:35
+#: ./ftw/glossary/content/glossary_item.py:37
 msgid "label_categories"
 msgstr "Kategorien"
 
 #. Default: "Definition"
-#: ./ftw/glossary/content/glossary_item.py:23
+#: ./ftw/glossary/content/glossary_item.py:25
 msgid "label_definition"
 msgstr ""
 
@@ -65,17 +68,17 @@ msgid "label_glossaryportlet"
 msgstr "Glossar Portlet"
 
 #. Default: "Term"
-#: ./ftw/glossary/content/glossary_item.py:42
+#: ./ftw/glossary/content/glossary_item.py:44
 msgid "label_term"
 msgstr "Begriff"
 
 #. Default: "Categories"
-#: ./ftw/glossary/browser/glossary_view.pt:17
+#: ./ftw/glossary/browser/glossary_view.pt:24
 msgid "title_categories"
 msgstr "Kategorien"
 
 #. Default: "Glossary"
-#: ./ftw/glossary/browser/glossaryitemview.pt:19
+#: ./ftw/glossary/browser/glossaryitemview.pt:12
 #: ./ftw/glossary/portlets/search.pt:5
 msgid "title_glossary"
 msgstr "Glossar"
