@@ -14,11 +14,6 @@
       />
 
     <browser:resource
-       name="glossary-item.css"
-       file="resources/glossary-item.css"
-       />
-
-    <browser:resource
        name="ftw.glossary.glossary.js"
        file="resources/glossary.js"
        />
