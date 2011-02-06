@@ -10,8 +10,8 @@
         <form method="post" id="glossaryform-portlet"
               tal:attributes="action glossary_url">
             <input type="hidden" name="form.submitted:boolean" value="True" />
-            <input type="hidden" name="categories:list" value="Allgemein">
-            <input type="hidden" name="categories:list" value="Annabelle">
+            <input type="hidden" name="categories:list" value="Allgemein" />
+            <input type="hidden" name="categories:list" value="Annabelle" />
             <input name="glossary-search-field"
                    type="text"
                    class="inputLabel"
