@@ -7,6 +7,7 @@ PROFILE_ID = 'profile-ftw.glossary:default'
 # Specify the indexes you want, with ('index_name', 'index_type')
 INDEXES = (
     ('Title', 'ZCTextIndex'),
+    ('getDefinition', 'ZCTextIndex'),
     ('getCategories', 'KeywordIndex'),
     ('getFirstLetter', 'FieldIndex'),
     ('getSortableTitle', 'FieldIndex'),
