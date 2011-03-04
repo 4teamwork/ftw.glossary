@@ -28,6 +28,7 @@ setup(name='ftw.glossary',
       install_requires=[
           'setuptools',
           'collective.js.jqueryui',
+          'Products.TextIndexNG3',
           # -*- Extra requirements: -*-
       ],
       tests_require=tests_require,

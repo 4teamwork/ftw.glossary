@@ -11,7 +11,8 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from ftw.glossary.interfaces import IGlossaryItem
 from ftw.glossary.config import PROJECTNAME
 from ftw.glossary import GlossarMessageFactory as _
-
+from zopyx.txng3.core.content import IndexContentCollector
+from zopyx.txng3.core.interfaces import IIndexableContent
 
 GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
@@ -52,7 +53,7 @@ finalizeATCTSchema(GlossaryItemSchema, folderish=False, moveDiscussion=False)
 class GlossaryItem(base.ATCTContent):
     """Describe a glossary item.
     """
-    implements(IGlossaryItem)
+    implements(IGlossaryItem, IIndexableContent)
 
     portal_type = "GlossaryItem"
     _at_rename_after_creation = True
@@ -83,6 +84,14 @@ class GlossaryItem(base.ATCTContent):
         sortabletitle = safe_unicode(sortabletitle)[:70].encode('utf-8')
         return sortabletitle
 
+    def indexableContent(self, fields):
+
+        icc = IndexContentCollector()
+        if 'definition' in fields:
+            icc.addContent('definition', self.getDefinition(mimetype='text/plain').decode('utf8'), self.Language())
+        if 'title' in fields:
+            icc.addContent('title', self.Title().decode('utf8'), self.Language())
+        return icc
 
 def zero_fill(matchobj):
     return matchobj.group().zfill(6)
