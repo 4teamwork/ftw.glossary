@@ -1,10 +1,13 @@
 jq(function() {
     // Load search results with AJAX
-    jq('input[name=glossary-search-button]').click(function(event) {
+    jq('#glossaryform').submit(function(event) {
         event.preventDefault();
-        var formdata = jq('#glossaryform').serializeArray();
+        var formdata = jq(this).serializeArray();
         jq.get('glossary_view/results', formdata, function(data) {
+            jq('input[name=glossary-search-field]').autocomplete("close");
             jq('#glossary-searchresults').html(data);
+            var search_term = jq('#glossaryform input[name="glossary-search-field"]').val().replace(/\*/g, '');
+            jq('#glossary-searchresults').highlightSearchTerms({terms:[search_term]});
         });
     });
 
@@ -19,15 +22,15 @@ jq(function() {
     });
 
     // Autocomplete
-    jq('input[name=glossary-search-field]').autocomplete(
-        {source: function(req, callback){
-              var categories = jq('#glossaryform input[name="categories:list"]:checked');
-              var formData = new Array();
-              formData.push({"name":"term", "value":req.term});
-              for (var i = 0; i < categories.length; i++) {
-                  formData.push({"name":"categories:list", "value":jq(categories[i]).val()});
-              };
-              jq.get('glossary_view/matching_terms', formData, callback);
-        }
+    jq('input[name=glossary-search-field]').autocomplete({
+        source: function(req, callback) {
+                var categories = jq('#glossaryform input[name="categories:list"]:checked');
+                var formData = new Array();
+                formData.push({"name":"term", "value":req.term});
+                for (var i = 0; i < categories.length; i++) {
+                    formData.push({"name":"categories:list", "value":jq(categories[i]).val()});
+                };
+                jq.get('glossary_view/matching_terms', formData, callback); },
+        select: function(event, ui) { jq('#glossaryform').submit(); }
     });  
 });

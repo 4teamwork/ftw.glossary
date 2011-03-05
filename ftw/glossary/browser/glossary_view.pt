@@ -17,27 +17,59 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-    <form method="post" id="glossaryform"
-          tal:attributes="action string:${context/absolute_url}/${view/__name__}">
+    <form method="get" id="glossaryform" class="enableAutoFocus"
+          tal:attributes="action string:${context/absolute_url}">
 
-        <div style="float: right">
-        <h3 i18n:translate="title_categories">Categories</h3>
-        <tal:categories tal:repeat="category view/categories">
-        <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category/value; id category/token;">
-        &nbsp;<label tal:content="category/title" tal:attributes="for category/token"/><br/>
-        </tal:categories>
-        </div>
-
-        <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?search_letter=0">0-9</a>
+        <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}?search_letter=0">0-9</a>
         <tal:alphabetical-index tal:repeat="letter python:map(chr, range(65, 91))">
-            <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}/${view/__name__}?search_letter=${letter}" tal:content="letter">A</a>
+            <a href="" class="glossary-index-links" tal:attributes="href string:${context/absolute_url}?search_letter=${letter}" tal:content="letter">A</a>
         </tal:alphabetical-index>
         <br/><br/>
+
         <input type="hidden" name="form.submitted:boolean" value="True" />
-        <input name="glossary-search-field" type="text" />
+
+        <div class="field">
+        <input name="glossary-search-field" type="text" size="40"
+               tal:attributes="value python:request.form.get('glossary-search-field','')"/>
         <input name="glossary-search-button" type="submit" class="allowMultiSubmit" value="Search" i18n:attributes="value"/>
+        </div>
+
+        <table class="searchSelection"
+               tal:define="selection python:request.form.get('search-index', False);
+                           selected_categories python:request.form.get('categories', view.categories());">
+            <tr>
+                <td>
+                    <label i18n:translate="label_search_in">Search in</label>
+                </td>
+                <td>
+                    <input type="radio" id="search_index_titledefinition"
+                           name="search-index" value="titledefinition"
+                           tal:attributes="checked python:selection=='titledefinition' and 'checked' or not selection and 'checked' or None;"/>
+                    <label for="search_index_titledefinition"
+                           i18n:translate="label_search_index_titledefinition">Title and Definition</label><br />
+
+                    <input type="radio" id="search_index_title"
+                           name="search-index" value="title"
+                           tal:attributes="checked python:selection=='title' and 'checked' or None;"/>
+                    <label for="search_index_title" i18n:translate="label_search_index_title">Title</label><br />
+
+                    <input type="radio" id="search_index_definition"
+                           name="search-index" value="definition"
+                           tal:attributes="checked python:selection=='definition' and 'checked' or None;" />
+                    <label for="search_index_definition" i18n:translate="label_search_index_definition">Definition</label>
+                </td>
+                <td style="padding-left:3em;">
+                    <label i18n:translate="label_categories">Categories</label>
+                </td>
+                <td>
+                <tal:categories tal:repeat="category view/categories">
+                    <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category/value; id category/token;">
+                    &nbsp;<label tal:content="category/title" tal:attributes="for category/token"/><br/>
+                </tal:categories>
+                </td>
+            </tr>
+        </table>
     </form>
-    <br/>
 
     <div id="glossary-searchresults" tal:content="structure view/results" />
 
