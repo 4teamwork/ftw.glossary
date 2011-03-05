@@ -6,8 +6,7 @@ PROFILE_ID = 'profile-ftw.glossary:default'
 
 # Specify the indexes you want, with ('index_name', 'index_type')
 INDEXES = (
-    ('Title', 'ZCTextIndex'),
-    ('getDefinition', 'ZCTextIndex'),
+    ('glossaryText', 'TextIndexNG3'),
     ('getCategories', 'KeywordIndex'),
     ('getFirstLetter', 'FieldIndex'),
     ('getSortableTitle', 'FieldIndex'),
@@ -52,25 +51,40 @@ def add_catalog_indexes(context, logger=None):
 
 
     # Add Lexicon
-    if 'glossary_lexicon' not in catalog.objectIds():
-        catalog.manage_addProduct['ZCTextIndex'].manage_addLexicon(
-            'glossary_lexicon',
-            elements=[
-                Args(group="Word Splitter", name= "HTML aware splitter"),
-                Args(group="Case Normalizer", name="Case Normalizer"),
-                Args(group="Stop Words", name=" Don't remove stop words")
-            ]
-        )
+    # if 'glossary_lexicon' not in catalog.objectIds():
+    #     catalog.manage_addProduct['ZCTextIndex'].manage_addLexicon(
+    #         'glossary_lexicon',
+    #         elements=[
+    #             Args(group="Word Splitter", name= "HTML aware splitter"),
+    #             Args(group="Case Normalizer", name="Case Normalizer"),
+    #             Args(group="Stop Words", name=" Don't remove stop words")
+    #         ]
+    #     )
 
     # Add indexes
     indexes = catalog.indexes()
     indexables = []
     for name, meta_type in INDEXES:
         if name not in indexes:
-            if meta_type == 'ZCTextIndex':
-                extra = Args(doc_attr=name,
-                             lexicon_id='glossary_lexicon',
-                             index_type='Okapi BM25 Rank')
+            if meta_type == 'TextIndexNG3':
+                extra = Args(fields = ['title', 'definition'],
+                             default_encoding='utf-8',
+                             splitter_additional_chars='',
+                             languages=['iso',],
+                             use_normalizer=1,
+                             use_stemmer=0,
+                             use_stopwords=0,
+                             splitter='txng.splitters.default',
+                             splitter_casefolding=1,
+                             index_unknown_languages=1,
+                             dedicated_storage=1,
+                             autoexpand='off',
+                             autoexpand_limit=4,
+                             query_parser='txng.parsers.en',
+                             storage='txng.storages.default',
+                             ranking=0,
+                             ranking_method='txng.ranking.cosine',
+                             lexicon='txng.lexicons.default',)
                 catalog.addIndex(name, meta_type, extra=extra)
             else:
                 catalog.addIndex(name, meta_type)

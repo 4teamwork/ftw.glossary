@@ -8,11 +8,13 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.CMFPlone.utils import safe_unicode
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.i18n.normalizer.base import UNIDECODE_LIMIT
 from ftw.glossary.interfaces import IGlossaryItem
 from ftw.glossary.config import PROJECTNAME
 from ftw.glossary import GlossarMessageFactory as _
 from zopyx.txng3.core.content import IndexContentCollector
 from zopyx.txng3.core.interfaces import IIndexableContent
+
 
 GlossaryItemSchema = base.ATContentTypeSchema.copy() + atapi.Schema((
 
@@ -62,9 +64,7 @@ class GlossaryItem(base.ATCTContent):
     def getFirstLetter(self):
         """Returns the first letter of the glossary term for indexing.
         """
-        title = self.Title().strip()
-        title = getUtility(IIDNormalizer).normalize(title)
-        for letter in title:
+        for letter in self.normalizedTitle():
             if letter.isalpha():
                 return letter.lower()
             # Index all digits as '0' because we treat them as the same first letter.
@@ -77,21 +77,33 @@ class GlossaryItem(base.ATCTContent):
         """Normalizes the glossary term for sorting.
         """
         # Code taken from sortable_title indexer in Products.CMFPlone.CatalogTool.py
-        sortabletitle = self.Title().lower().strip()
+        sortabletitle = self.normalizedTitle()
         # Replace numbers with zero filled numbers
         sortabletitle = num_sort_regex.sub(zero_fill, sortabletitle)
         # Truncate to prevent bloat
         sortabletitle = safe_unicode(sortabletitle)[:70].encode('utf-8')
         return sortabletitle
 
-    def indexableContent(self, fields):
+    def normalizedTitle(self):
+        """Returns a normalized title that doesn't contain non-ascii
+           characters.
+        """
+        normalizer = getUtility(IIDNormalizer)
+        title = self.Title().strip().decode('utf8')
+        # remove chars above unidecode limit of id normalizer
+        title = u''.join([ch for ch in title if ord(ch)<UNIDECODE_LIMIT])
+        return normalizer.normalize(title)
 
+    def indexableContent(self, fields):
+        """Returns index data for TextIndexNG3.
+        """
         icc = IndexContentCollector()
         if 'definition' in fields:
             icc.addContent('definition', self.getDefinition(mimetype='text/plain').decode('utf8'), self.Language())
         if 'title' in fields:
             icc.addContent('title', self.Title().decode('utf8'), self.Language())
         return icc
+
 
 def zero_fill(matchobj):
     return matchobj.group().zfill(6)

@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ftw.glossary">
+
+  <gs:upgradeStep
+      title="Migrate to TextIndexNG3"
+      description="Replace fulltext indexes with TextIndexNG3"
+      source="1"
+      destination="1100"
+      handler="ftw.glossary.upgrades.migrate_to_textindexng3"
+      profile="ftw.glossary:default" />
+
+</configure>

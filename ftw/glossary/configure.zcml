@@ -30,6 +30,7 @@
         description=""
         handler="ftw.glossary.setuphandlers.import_various" />
 
+    <include file="upgrades.zcml" />
 
     <utility
       name="ftw.glossary.categories"
