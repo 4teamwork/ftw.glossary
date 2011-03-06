@@ -1,11 +1,19 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
-------------------
+1.1 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Provide the option to search in title and/or definition of glossary items.
+  [Thomas Buchberger]
 
+- Switched to TextIndexNG3 for fulltext indexing. This enables left truncation
+  and wildcard search.
+  [Thomas Buchberger]
+
+- Improved autocomplete selection. When an item is selected from the
+  autocomplete popup, automatically search for it.
+  [Thomas Buchberger]
 
 1.0 (2011-02-25)
 ----------------

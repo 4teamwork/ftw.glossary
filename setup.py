@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.1dev'
+version = '1.1dev'
 
 tests_require=['zope.testing']
 
@@ -29,14 +29,12 @@ setup(name='ftw.glossary',
           'setuptools',
           'collective.js.jqueryui',
           'Products.TextIndexNG3',
-          # -*- Extra requirements: -*-
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
       test_suite = 'ftw.glossary.tests.test_docs.test_suite',
       entry_points="""
       # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
