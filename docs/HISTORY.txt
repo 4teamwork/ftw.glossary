@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.1.1 (2011-03-08)
 ------------------
 
 - Define our own highlighting function instead of using Plone's highlighter
