@@ -101,7 +101,7 @@ class GlossaryView(BrowserView):
         self.request.form.update({'glossary-search-field':term, 'search-index': 'title'})
         response = self.request.response
         response.setHeader('Content-Type','application/json')
-        terms = [brain.Title for brain in self.glossary_items()[:100]]
+        terms = [brain.Title for brain in self.glossary_items()[:50]]
         return json.dumps(terms)
 
     def form_submitted(self):

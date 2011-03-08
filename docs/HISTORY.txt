@@ -4,7 +4,12 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Define our own highlighting function instead of using Plone's highlighter
+  because the latter doesn't work well with IE.
+  [Thomas Buchberger]
+
+- Limit autocomplete results to 50 items.
+  [Thomas Buchberger]
 
 
 1.1 (2011-03-06)
