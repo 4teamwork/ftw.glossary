@@ -1,11 +1,9 @@
 // Define our own highlight function because the one from Plone doesn't work
 // well with IE.
 jQuery.fn.glossaryHighlight = function (str, className) {
-    var regex = new RegExp(str, "gi");
+    var regex = new RegExp("(>[^<]*)("+str+")([^>]*<)", "gi");
     return this.each(function () {
-        this.innerHTML = this.innerHTML.replace(regex, function(matched) {
-            return "<span class=\"" + className + "\">" + matched + "</span>";
-        });
+        this.innerHTML = this.innerHTML.replace(regex, "$1<span class=\"" + className + "\">" + "$2</span>$3");
     });
 };
 jq(function() {
@@ -41,6 +39,14 @@ jq(function() {
                     formData.push({"name":"categories:list", "value":jq(categories[i]).val()});
                 };
                 jq.get('glossary_view/matching_terms', formData, callback); },
-        select: function(event, ui) { jq('#glossaryform').submit(); }
-    });  
+        select: function(event, ui) {
+                jq('#glossaryform input[name="glossary-search-field"]').val(ui.item.value);
+                jq('#glossaryform').submit(); }
+    });
+
+    // Select all text when clicking inside search input field
+    jq('#glossaryform input[name="glossary-search-field"]').click(function(event) {
+        if (jq(this).hasClass('textSelected')) jq(this).removeClass('textSelected');
+        else jq(this).focus().select().addClass('textSelected');
+    });
 });

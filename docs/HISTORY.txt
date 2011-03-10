@@ -4,7 +4,15 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed highlighting: Do not highlight inside html tags.
+  [Thomas Buchberger]
+
+- Fixed autosubmit: Make sure when a user clicks on an item it's value is
+  copied into the text field before submitting the form.
+  [Thomas Buchberger]
+
+- Select all text in the input field when a user clicks on it.
+  [Thomas Buchberger]
 
 
 1.1.1 (2011-03-08)
