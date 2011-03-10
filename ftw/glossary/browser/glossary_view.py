@@ -78,6 +78,17 @@ class GlossaryView(BrowserView):
         if not search_term:
             return []
 
+        # Remove some special characters from search term
+        search_term = search_term.replace('/', ' ')
+        search_term = search_term.replace('(', ' ')
+        search_term = search_term.replace(')', ' ')
+        search_term = search_term.replace('-', ' ')
+        search_term = search_term.replace('+', ' ')
+        search_term = search_term.replace(',', ' ')
+        search_term = search_term.replace(';', ' ')
+        search_term = search_term.replace(':', ' ')
+        search_term = search_term.strip()
+
         if search_index == 'title':
             query['glossaryText'] = dict(query=search_term, field='title')
         elif search_index == 'definition':

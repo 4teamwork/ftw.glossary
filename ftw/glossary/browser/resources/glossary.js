@@ -16,6 +16,7 @@ jq(function() {
             var search_term = jq('#glossaryform input[name="glossary-search-field"]').val().replace(/\*/g, '');
             jq('#glossary-searchresults').glossaryHighlight(search_term, 'highlightedSearchTerm');
             jq('input[name=glossary-search-field]').autocomplete("close");
+            jq('#glossaryform input[name="glossary-search-field"]').removeClass('textSelected');
         });
     });
 

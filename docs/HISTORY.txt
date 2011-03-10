@@ -4,6 +4,10 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Remove some special characters from search term to improve search results
+  when using autocomplete.
+  [Thomas Buchberger]
+
 - Fixed highlighting: Do not highlight inside html tags.
   [Thomas Buchberger]
 
