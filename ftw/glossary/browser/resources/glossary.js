@@ -1,7 +1,11 @@
+// Escape strings to be used in regexps.
+RegExp.escape = function(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 // Define our own highlight function because the one from Plone doesn't work
 // well with IE.
 jQuery.fn.glossaryHighlight = function (str, className) {
-    var regex = new RegExp("(>[^<]*)("+str+")([^>]*<)", "gi");
+    var regex = new RegExp("(>[^<]*)("+RegExp.escape(str)+")([^>]*<)", "gi");
     return this.each(function () {
         this.innerHTML = this.innerHTML.replace(regex, "$1<span class=\"" + className + "\">" + "$2</span>$3");
     });

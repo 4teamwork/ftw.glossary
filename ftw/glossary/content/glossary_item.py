@@ -82,6 +82,8 @@ class GlossaryItem(base.ATCTContent):
         sortabletitle = num_sort_regex.sub(zero_fill, sortabletitle)
         # Truncate to prevent bloat
         sortabletitle = safe_unicode(sortabletitle)[:70].encode('utf-8')
+        # Remove dashes. Sortable title should contain only characters and digits.
+        sortabletitle = sortabletitle.replace('-', '')
         return sortabletitle
 
     def normalizedTitle(self):

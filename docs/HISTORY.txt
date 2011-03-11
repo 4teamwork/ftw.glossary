@@ -4,11 +4,17 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Remove dashes from sortable title. It should contain only characters and digits.
+  [Thomas Buchberger]
+
 - Remove some special characters from search term to improve search results
   when using autocomplete.
   [Thomas Buchberger]
 
 - Fixed highlighting: Do not highlight inside html tags.
+  [Thomas Buchberger]
+
+- Fixed highlighting bug: Properly escape regex metacharacters in search terms.
   [Thomas Buchberger]
 
 - Fixed autosubmit: Make sure when a user clicks on an item it's value is
