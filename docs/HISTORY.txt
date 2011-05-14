@@ -4,6 +4,10 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
+- Fixed highlighting: When multiple matches occured that were not separated by
+  tags, only the last match was highlighted.
+  [Thomas Buchberger]
+
 - Remove ampersands from the search term.
   [Thomas Buchberger]
 

@@ -5,9 +5,14 @@ RegExp.escape = function(text) {
 // Define our own highlight function because the one from Plone doesn't work
 // well with IE.
 jQuery.fn.glossaryHighlight = function (str, className) {
-    var regex = new RegExp("(>[^<]*)("+RegExp.escape(str)+")([^>]*<)", "gi");
+    var rstr = RegExp.escape(str);
+    var regex = new RegExp("(>[^<]*)("+rstr+")([^>]*<)", "gi");
     return this.each(function () {
-        this.innerHTML = this.innerHTML.replace(regex, "$1<span class=\"" + className + "\">" + "$2</span>$3");
+        this.innerHTML = this.innerHTML.replace(regex, function($1, $2, $3, $4) {
+            // maybe we have additional matches to highlight in the first group ($2)
+            $2 = $2.replace(new RegExp("("+rstr+")", "gi"), "<span class=\"" + className + "\">$1</span>");
+            return $2 + "<span class=\"" + className + "\">" + $3+ "</span>" + $4;
+        });
     });
 };
 jq(function() {
