@@ -88,6 +88,7 @@ class GlossaryView(BrowserView):
         search_term = search_term.replace('.', ' ')
         search_term = search_term.replace(';', ' ')
         search_term = search_term.replace(':', ' ')
+        search_term = search_term.replace('&', ' ')        
         search_term = search_term.strip()
 
         if search_index == 'title':

@@ -4,6 +4,9 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
+- Remove ampersands from the search term.
+  [Thomas Buchberger]
+
 - Remove dots from the search term. TextIndexNG may throw an AttributeError if
   dots are present in the search term.
   [Thomas Buchberger]
