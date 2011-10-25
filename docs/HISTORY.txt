@@ -4,6 +4,10 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Register glossary_view for plone.folder.interfaces.IFolder to make it work
+  with other folder implementations (e.g. dexterity).
+  [Thomas Buchberger]
+
 - Do not highlight if there is an empty string searched.
   [Julian Infanger]
 

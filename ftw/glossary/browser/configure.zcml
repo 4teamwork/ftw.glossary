@@ -6,7 +6,7 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <browser:page
-      for="Products.ATContentTypes.interface.folder.IATFolder"
+      for="plone.folder.interfaces.IFolder"
       name="glossary_view"
       class=".glossary_view.GlossaryView"
       allowed_interface=".glossary_view.IGlossaryView"
@@ -28,7 +28,7 @@
       />
 
     <browser:page
-      for="Products.ATContentTypes.interface.folder.IATFolder"
+      for="plone.folder.interfaces.IFolder"
       name="glossary-maintenance"
       class=".maintenance.GlossaryMaintenanceView"
       allowed_interface="..interfaces.IGlossaryMaintencanceView"
