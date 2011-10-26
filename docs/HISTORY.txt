@@ -4,6 +4,10 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Do not display category options in search form when no categories are
+  defined.
+  [Thomas Buchberger]
+
 - Register glossary_view for plone.folder.interfaces.IFolder to make it work
   with other folder implementations (e.g. dexterity).
   [Thomas Buchberger]

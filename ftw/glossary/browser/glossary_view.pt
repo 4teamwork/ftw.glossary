@@ -36,7 +36,8 @@
 
         <table class="searchSelection"
                tal:define="selection python:request.form.get('search-index', False);
-                           selected_categories python:request.form.get('categories', view.categories());">
+                           categories view/categories;
+                           selected_categories python:request.form.get('categories', categories);">
             <tr>
                 <td>
                     <label i18n:translate="label_search_in">Search in</label>
@@ -58,11 +59,11 @@
                            tal:attributes="checked python:selection=='definition' and 'checked' or None;" />
                     <label for="search_index_definition" i18n:translate="label_search_index_definition">Definition</label>
                 </td>
-                <td style="padding-left:3em;">
+                <td tal:condition="categories" style="padding-left:3em;">
                     <label i18n:translate="label_categories">Categories</label>
                 </td>
-                <td>
-                <tal:categories tal:repeat="category view/categories">
+                <td tal:condition="categories">
+                <tal:categories tal:repeat="category categories">
                     <input type="checkbox" checked="True" name="categories:list" tal:attributes="value category/value; id category/token;">
                     &nbsp;<label tal:content="category/title" tal:attributes="for category/token"/><br/>
                 </tal:categories>
