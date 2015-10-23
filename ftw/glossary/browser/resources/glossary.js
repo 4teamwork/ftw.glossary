@@ -17,48 +17,49 @@ jQuery.fn.glossaryHighlight = function (str, className) {
         });
     }
 };
-jq(function() {
+
+jQuery(document).ready(function($) {
     // Load search results with AJAX
-    jq('#glossaryform').submit(function(event) {
+    $('#glossaryform').submit(function(event) {
         event.preventDefault();
-        var formdata = jq(this).serializeArray();
-        jq.get('glossary_view/results', formdata, function(data) {
-            jq('#glossary-searchresults').html(data);
-            var search_term = jq('#glossaryform input[name="glossary-search-field"]').val().replace(/\*/g, '');
-            jq('#glossary-searchresults').glossaryHighlight(search_term, 'highlightedSearchTerm');
-            jq('input[name=glossary-search-field]').autocomplete("close");
-            jq('#glossaryform input[name="glossary-search-field"]').removeClass('textSelected');
+        var formdata = $(this).serializeArray();
+        $.get('glossary_view/results', formdata, function(data) {
+            $('#glossary-searchresults').html(data);
+            var search_term = $('#glossaryform input[name="glossary-search-field"]').val().replace(/\*/g, '');
+            $('#glossary-searchresults').glossaryHighlight(search_term, 'highlightedSearchTerm');
+            $('input[name=glossary-search-field]').autocomplete("close");
+            $('#glossaryform input[name="glossary-search-field"]').removeClass('textSelected');
         });
     });
 
     // Load index query results with AJAX
-    jq('a.glossary-index-links').click(function(event) {
+    $('a.glossary-index-links').click(function(event) {
         event.preventDefault();
-        var formdata = jq('#glossaryform').serializeArray();
-        formdata.push({name: 'search_letter', value: jq(this).text()});
-        jq.get('glossary_view/results', formdata, function(data) {
-            jq('#glossary-searchresults').html(data);
+        var formdata = $('#glossaryform').serializeArray();
+        formdata.push({name: 'search_letter', value: $(this).text()});
+        $.get('glossary_view/results', formdata, function(data) {
+            $('#glossary-searchresults').html(data);
         });
     });
 
     // Autocomplete
-    jq('input[name=glossary-search-field]').autocomplete({
+    $('input[name=glossary-search-field]').autocomplete({
         source: function(req, callback) {
-                var categories = jq('#glossaryform input[name="categories:list"]:checked');
-                var formData = new Array();
+                var categories = $('#glossaryform input[name="categories:list"]:checked');
+                var formData = [];
                 formData.push({"name":"term", "value":req.term});
                 for (var i = 0; i < categories.length; i++) {
-                    formData.push({"name":"categories:list", "value":jq(categories[i]).val()});
-                };
-                jq.get('glossary_view/matching_terms', formData, callback); },
+                    formData.push({"name":"categories:list", "value":$(categories[i]).val()});
+                }
+                $.get('glossary_view/matching_terms', formData, callback); },
         select: function(event, ui) {
-                jq('#glossaryform input[name="glossary-search-field"]').val(ui.item.value);
-                jq('#glossaryform').submit(); }
+                $('#glossaryform input[name="glossary-search-field"]').val(ui.item.value);
+                $('#glossaryform').submit(); }
     });
 
     // Select all text when clicking inside search input field
-    jq('#glossaryform input[name="glossary-search-field"]').click(function(event) {
-        if (jq(this).hasClass('textSelected')) jq(this).removeClass('textSelected');
-        else jq(this).focus().select().addClass('textSelected');
+    $('#glossaryform input[name="glossary-search-field"]').click(function(event) {
+        if ($(this).hasClass('textSelected')) $(this).removeClass('textSelected');
+        else $(this).focus().select().addClass('textSelected');
     });
 });
