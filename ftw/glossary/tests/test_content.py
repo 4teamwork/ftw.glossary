@@ -1,16 +1,17 @@
-import unittest
-from ftw.glossary.tests.base import FtwGlossaryTestCase
-
 from Products.CMFCore.utils import getToolByName
 
-class TestContent(FtwGlossaryTestCase):
-    
-    def afterSetUp(self):
+from ftw.glossary.tests import FunctionalTestCase
+
+
+class TestContent(FunctionalTestCase):
+    def setUp(self):
+        super(TestContent, self).setUp()
+        self.grant('Manager')
+
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.acl_users = getToolByName(self.portal, 'acl_users')
         self.types = getToolByName(self.portal, 'portal_types')
 
-        self.setRoles(('Manager',))
         self.portal.invokeFactory("Folder", "glossary")
 
     def test_glossary_item_content(self):
@@ -43,9 +44,3 @@ class TestContent(FtwGlossaryTestCase):
         brains = catalog(Title="ZODB")
         self.assertEquals(brains[0].Title(), "ZODB")
         self.assertEquals(brains[0].getDefinition(), 'The Zope <em>Object</em> Database')
-
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestContent))
-    return suite
