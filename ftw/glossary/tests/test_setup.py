@@ -1,21 +1,21 @@
-import unittest
-from ftw.glossary.tests.base import FtwGlossaryTestCase
-
 from Products.CMFCore.utils import getToolByName
 
-class TestSetup(FtwGlossaryTestCase):
+from ftw.glossary.tests import FunctionalTestCase
 
-    def afterSetUp(self):
+
+class TestSetup(FunctionalTestCase):
+
+    def setUp(self):
+        super(TestSetup, self).setUp()
+        self.grant('Manager')
+
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.acl_users = getToolByName(self.portal, 'acl_users')
         self.types = getToolByName(self.portal, 'portal_types')
 
-        self.setRoles(('Manager',))
         self.portal.invokeFactory("Folder", "glossary")
-        self.setRoles(('Member',))
 
-
-    def test_add_glossary_item_permissison(self):
+    def test_add_glossary_item_permissions(self):
         # The API of the permissionsOfRole() function sucks - it is bound too
         # closely up in the permission management screen's user interface
         roles = ['Manager', 'Editor', 'Contributor']
@@ -32,16 +32,10 @@ class TestSetup(FtwGlossaryTestCase):
         self.failUnless(document_fti.global_allow)
 
     def test_glossary_item_creation(self):
-        self.setRoles(('Manager',))
+        self.grant('Manager')
         self.portal.glossary.invokeFactory("GlossaryItem", "html")
         item = self.portal.glossary.html
         item.setTitle("HTML")
         item.setDefinition("Hyper Text Markup Language")
         self.assertEquals(item.Title(), "HTML")
         self.assertEquals(item.getDefinition(), '<p>Hyper Text Markup Language</p>')
-
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSetup))
-    return suite

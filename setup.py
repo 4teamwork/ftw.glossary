@@ -3,7 +3,11 @@ import os
 
 version = '1.2.0dev'
 
-tests_require=['zope.testing']
+tests_require = [
+    'ftw.builder',
+    'ftw.testbrowser',
+    'ftw.testing',
+]
 
 setup(name='ftw.glossary',
       version=version,
@@ -29,10 +33,10 @@ setup(name='ftw.glossary',
           'setuptools',
           'collective.js.jqueryui',
           'Products.TextIndexNG3',
+          'Plone',
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
-      test_suite = 'ftw.glossary.tests.test_docs.test_suite',
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
